@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trabalho escravo contemporâneo</title>
+<style>
+@font-face{font-family:"Fraunces";src:url(fonts/Fraunces.woff2) format("woff2");font-weight:300 900;font-style:normal}
+@font-face{font-family:"Fraunces";src:url(fonts/Fraunces-Italic.woff2) format("woff2");font-weight:300 900;font-style:italic}
+:root{
+  --ink:#0f0d0c; --ink2:#1a1715; --line:#2c2724;
+  --paper:#f2ebdf; --paper2:#e7dccb; --pink:#1d1a17;
+  --text:#f4efe8; --muted:#9d958b;
+  --amber:#eaa53f; --rust:#d0553a; --teal:#38a596; --tealsoft:#2a7d72;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;height:100%;overflow:hidden}
+body{font-family:"Inter",system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;background:var(--ink);transform-origin:0 0}
+.serif{font-family:"Fraunces",Georgia,serif}
+.mono{font-family:"JetBrains Mono",monospace}
+em{font-style:italic}
+.amber{color:var(--amber)} .rust{color:var(--rust)} .teal{color:var(--teal)} .muted{color:var(--muted)}
+
+/* ambient background */
+.blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.33;pointer-events:none}
+#b1{width:900px;height:900px;background:#5a3216;left:-200px;top:-300px}
+#b2{width:800px;height:800px;background:#123f3a;right:-250px;bottom:-350px}
+#grain{position:absolute;inset:-64px;pointer-events:none;opacity:.07;mix-blend-mode:overlay;z-index:50}
+#vignette{position:absolute;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.45) 100%)}
+
+/* HUD */
+#hud{position:absolute;inset:0;z-index:40;pointer-events:none;transition:none}
+#hud .tl{position:absolute;left:96px;top:56px;font:500 22px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+#hud .tl i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--rust);margin-right:14px;vertical-align:1px}
+#hud .ch{position:absolute;right:96px;top:56px;font:600 22px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--amber)}
+#hud .bar{position:absolute;left:96px;right:96px;bottom:48px;height:3px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
+#hud .bar b{display:block;height:100%;width:0;background:var(--amber)}
+#hud.light .tl{color:#7a6f62} #hud.light .ch{color:var(--rust)} #hud.light .bar{background:rgba(0,0,0,.12)} #hud.light .bar b{background:var(--rust)}
+
+/* scenes */
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden}
+.scene.light{background:var(--paper);color:#1d1a17}
+.scene.light .muted{color:#76695b}
+.inner{position:absolute;inset:0;transform-origin:50% 50%}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 160px}
+.wrap{position:absolute;left:160px;right:160px;top:150px;bottom:120px;display:flex;flex-direction:column;justify-content:center}
+.w{display:inline-block;white-space:pre}
+
+.kicker{font:600 26px/1.2 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:28px}
+.light .kicker{color:var(--rust)}
+.h-xxl{font:800 132px/1.02 "Inter Display","Inter",sans-serif;letter-spacing:-.035em}
+.h-xl{font:800 96px/1.06 "Inter Display","Inter",sans-serif;letter-spacing:-.03em}
+.h-l{font:700 68px/1.12 "Inter Display","Inter",sans-serif;letter-spacing:-.02em}
+.h-m{font:700 52px/1.15 "Inter Display","Inter",sans-serif;letter-spacing:-.015em}
+.h-serif{font:400 104px/1.08 "Fraunces",serif;letter-spacing:-.02em}
+.lead{font:400 42px/1.35 "Inter",sans-serif}
+.foot{font:400 30px/1.4 "Inter",sans-serif;color:var(--muted);margin-top:56px}
+.cite{font:500 24px/1.3 "JetBrains Mono",monospace;color:var(--muted);letter-spacing:.04em}
+.mt1{margin-top:24px}.mt2{margin-top:48px}.mt3{margin-top:72px}
+
+.line{display:block;overflow:hidden;padding:0 .04em .12em}
+.line>span{display:inline-block}
+.rule{width:220px;height:4px;background:var(--amber);margin:30px auto 40px;transform-origin:50% 50%}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:22px;margin:34px 0 58px}
+.chip{display:inline-block;font:600 40px/1 "Inter",sans-serif;padding:22px 34px;border-radius:999px;border:2px solid}
+.chip.t{color:var(--teal);border-color:rgba(56,165,150,.6);background:rgba(56,165,150,.1)}
+.chip.r{color:#ff8a6e;border-color:rgba(208,85,58,.7);background:rgba(208,85,58,.14)}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:52px}
+.pillar{border-top:4px solid var(--amber);padding:28px 4px 0}
+.pillar .n{font:600 26px/1 "JetBrains Mono",monospace;color:var(--muted)}
+.pillar .t{display:block;font:700 56px/1.1 "Inter Display",sans-serif;margin-top:18px}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:56px}
+.card{background:var(--ink2);border:1px solid var(--line);border-radius:22px;padding:40px 36px 44px;min-height:380px;position:relative;overflow:hidden}
+.card .n{font:700 30px/1 "JetBrains Mono",monospace;color:var(--rust)}
+.card h3{font:700 46px/1.1 "Inter Display",sans-serif;margin:30px 0 20px;letter-spacing:-.01em}
+.card p{font:400 30px/1.35 "Inter",sans-serif;color:#c9c1b6}
+.card::after{content:"";position:absolute;left:0;top:0;height:6px;width:100%;background:var(--rust)}
+
+/* strike */
+.strike{position:relative;display:inline-block}
+.strike::after{content:"";position:absolute;left:-2%;top:54%;height:14px;width:calc(104% * var(--p,0));background:var(--rust);border-radius:8px}
+.ctrl{display:flex;gap:26px;justify-content:center;margin-top:70px;flex-wrap:wrap}
+.ctrl span{font:700 54px/1 "Inter Display",sans-serif;padding:26px 38px;border:2px solid rgba(234,165,63,.5);border-radius:18px;color:var(--amber);background:rgba(234,165,63,.08)}
+
+/* flow */
+.flow{display:flex;align-items:stretch;gap:0;margin-top:70px}
+.step{flex:1;background:var(--ink2);border:1px solid var(--line);border-radius:22px;padding:36px 32px;min-height:300px}
+.step .n{width:62px;height:62px;border-radius:50%;background:var(--amber);color:var(--ink);font:800 30px/62px "Inter",sans-serif;text-align:center}
+.step h4{font:700 42px/1.12 "Inter Display",sans-serif;margin:28px 0 12px}
+.step p{font:400 28px/1.35 "Inter",sans-serif;color:#bdb5aa}
+.step.bad{border-color:rgba(208,85,58,.8);background:rgba(208,85,58,.12)}
+.step.bad .n{background:var(--rust);color:#fff}
+.arrow{width:80px;display:flex;align-items:center;justify-content:center}
+.arrow svg{width:64px;height:40px;overflow:visible}
+
+/* cloud */
+.cloud{position:relative;height:560px;margin-top:20px}
+.cloud span{position:absolute;font:700 46px/1 "Inter Display",sans-serif;padding:20px 30px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);white-space:nowrap}
+.banner{display:inline-block;font:800 64px/1.1 "Inter Display",sans-serif;letter-spacing:-.02em}
+.mark{background-image:linear-gradient(var(--amber),var(--amber));background-repeat:no-repeat;background-size:0% 100%;background-position:0 0;padding:4px 18px;color:var(--ink);border-radius:6px}
+.mark.pre{color:var(--text)}
+
+/* chain */
+.chain{display:flex;align-items:center;margin-top:90px}
+.link{flex:1;text-align:center;padding:40px 18px;border-radius:20px;border:2px solid rgba(255,255,255,.22);font:700 38px/1.15 "Inter Display",sans-serif;background:rgba(255,255,255,.04)}
+.link small{display:block;font:500 22px/1.2 "JetBrains Mono",monospace;color:var(--muted);margin-top:12px;letter-spacing:.06em;text-transform:uppercase}
+.link.d1{color:rgba(244,239,232,.78);border-color:rgba(255,255,255,.17)}
+.link.d2{color:rgba(244,239,232,.56);border-color:rgba(255,255,255,.12);filter:blur(.6px)}
+.link.d3{color:rgba(244,239,232,.36);border-color:rgba(255,255,255,.08);filter:blur(1.4px)}
+.link.worker{border-color:var(--rust);color:#ff8a6e;background:rgba(208,85,58,.12)}
+.chev{width:60px;text-align:center;font:300 54px/1 "Inter",sans-serif;color:var(--muted)}
+
+/* columns */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:56px}
+.col h3{font:700 30px/1 "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--amber);padding-bottom:22px;border-bottom:2px solid var(--line);margin-bottom:14px}
+.col.mind h3{color:var(--teal)}
+.col li{list-style:none;font:600 48px/1.2 "Inter Display",sans-serif;padding:18px 0;border-bottom:1px solid var(--line)}
+.col li::before{content:"";display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--amber);margin-right:26px;vertical-align:8px}
+.col.mind li::before{background:var(--teal)}
+
+/* quote */
+.quote{font:400 70px/1.2 "Fraunces",serif;letter-spacing:-.01em;max-width:1500px}
+.quote .q{color:var(--amber);font-size:140px;line-height:.5;vertical-align:-40px;margin-right:10px}
+
+/* case */
+.stamp{display:inline-block;font:900 180px/1 "Inter Display",sans-serif;color:var(--rust);border:12px solid var(--rust);padding:24px 64px 34px;border-radius:24px;letter-spacing:-.02em;text-transform:uppercase}
+.src{font:600 32px/1 "JetBrains Mono",monospace;letter-spacing:.1em;color:#5d5246;text-transform:uppercase;margin-top:56px}
+.light .h-serif{color:#1d1a17}
+.tlbox{position:absolute;left:160px;right:160px;top:610px}
+.track{height:18px;border-radius:12px;background:var(--paper2);position:relative;overflow:hidden}
+.fill{position:absolute;inset:0;background:linear-gradient(90deg,#e48a64,var(--rust));transform-origin:0 50%;border-radius:12px}
+.age{position:absolute;top:56px;font:400 30px/1.3 "Inter",sans-serif;color:#5d5246;width:540px}
+.age b{display:block;font:800 76px/1 "Inter Display",sans-serif;color:#1d1a17;margin-bottom:10px;letter-spacing:-.02em}
+.age.r{right:0;text-align:right}
+.age.r b{color:var(--rust)}
+.dot{position:absolute;top:-17px;width:52px;height:52px;border-radius:50%;background:var(--paper);border:8px solid var(--rust)}
+.bigc{position:absolute;left:0;right:0;top:170px;text-align:center}
+.bigc .num{font:900 300px/0.9 "Inter Display",sans-serif;letter-spacing:-.05em;color:#1d1a17}
+.bigc .lbl{font:500 44px/1.2 "Inter",sans-serif;color:#5d5246;margin-top:6px}
+.bigc .lbl b{color:var(--rust);font-weight:700}
+.found{margin-top:46px}
+.found li{list-style:none;display:flex;align-items:center;gap:34px;font:600 52px/1.2 "Inter Display",sans-serif;padding:22px 0;border-bottom:2px solid var(--paper2)}
+.found li i{flex:none;width:64px;height:64px;border-radius:50%;background:var(--rust);color:#fff;font:700 36px/64px "Inter",sans-serif;text-align:center;font-style:normal}
+.side{border-left:10px solid var(--rust);padding:16px 0 16px 60px;margin-top:44px}
+.side p{font:400 64px/1.25 "Fraunces",serif}
+.note{display:inline-flex;align-items:center;gap:18px;margin-top:56px;font:500 30px/1.3 "Inter",sans-serif;color:#5d5246;background:var(--paper2);padding:20px 30px;border-radius:14px}
+.stairs{display:flex;align-items:flex-end;gap:22px;height:420px;margin-top:40px}
+.stairs div{flex:1;background:var(--teal);color:#fff;border-radius:18px 18px 0 0;padding:28px 26px;font:700 36px/1.15 "Inter Display",sans-serif;transform-origin:50% 100%}
+.stairs div:nth-child(1){height:44%;background:#7cbcb2}
+.stairs div:nth-child(2){height:58%;background:#5daea2}
+.stairs div:nth-child(3){height:72%;background:#45a294}
+.stairs div:nth-child(4){height:86%;background:#2f8f81}
+.stairs div:nth-child(5){height:100%;background:#22766a}
+
+/* public policy timeline */
+.ptl{position:relative;margin-top:110px;height:420px}
+.ptl svg{position:absolute;left:0;top:60px;width:1600px;height:20px;overflow:visible}
+.pev{position:absolute;top:-30px;width:360px}
+.pev .y{font:800 64px/1 "Inter Display",sans-serif;color:var(--amber)}
+.pev .p{width:28px;height:28px;border-radius:50%;background:var(--amber);border:6px solid var(--ink);box-shadow:0 0 0 3px var(--amber);margin:22px 0 26px}
+.pev .d{font:500 32px/1.3 "Inter",sans-serif;color:#d8d0c5}
+.callout{display:flex;align-items:center;gap:30px;background:rgba(208,85,58,.14);border:2px solid rgba(208,85,58,.6);border-radius:20px;padding:30px 40px;font:600 40px/1.25 "Inter",sans-serif}
+.callout b{color:#ff8a6e;font-weight:800}
+
+/* pot cards */
+.pot{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:60px}
+.pc{border-radius:24px;padding:42px 36px;background:linear-gradient(180deg,rgba(56,165,150,.16),rgba(56,165,150,.04));border:1px solid rgba(56,165,150,.4);min-height:430px}
+.pc svg{width:76px;height:76px;stroke:var(--teal);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.pc h3{font:800 50px/1.05 "Inter Display",sans-serif;margin:30px 0 18px}
+.pc p{font:400 30px/1.35 "Inter",sans-serif;color:#cfc7bc}
+
+/* ethics */
+.eth{margin-top:30px}
+.eth div{display:flex;align-items:baseline;gap:40px;padding:30px 0;border-bottom:2px solid var(--line)}
+.eth .n{font:600 32px/1 "JetBrains Mono",monospace;color:var(--amber);width:60px}
+.eth .t{font:800 78px/1.05 "Inter Display",sans-serif;letter-spacing:-.025em}
+
+/* network */
+.net{position:absolute;inset:0}
+.net svg{position:absolute;inset:0;width:1920px;height:1080px}
+.node{position:absolute;transform:translate(-50%,-50%);font:700 36px/1 "Inter Display",sans-serif;padding:22px 32px;border-radius:999px;background:var(--ink2);border:2px solid rgba(234,165,63,.55);white-space:nowrap}
+.node.hub{font:800 46px/1 "Inter Display",sans-serif;background:var(--amber);color:var(--ink);border:none;padding:36px 52px}
+
+/* credits */
+.cred{position:absolute;inset:0;display:grid;grid-template-columns:1.05fr 1fr;gap:100px;padding:150px 160px 130px;align-items:center}
+.cred h2{font:400 84px/1.08 "Fraunces",serif;letter-spacing:-.02em}
+.cred .lbl{font:600 24px/1 "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--amber);text-transform:uppercase;margin:0 0 22px}
+.cred .prof{font:700 54px/1.1 "Inter Display",sans-serif;margin-bottom:64px}
+.cred ul li{list-style:none;font:600 44px/1.2 "Inter Display",sans-serif;padding:16px 0;border-bottom:1px solid var(--line)}
+.cred .inst{font:500 28px/1.5 "Inter",sans-serif;color:var(--muted);margin-top:40px}
+.refs{position:absolute;left:160px;right:160px;bottom:96px;font:400 21px/1.45 "Inter",sans-serif;color:#7b746b}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="blob" id="b1"></div><div class="blob" id="b2"></div>
+
+  <!-- 1 · Gancho -->
+  <section class="scene" data-dur="8" data-hud="0" data-sfx="rise">
+    <div class="inner"><div class="center">
+      <div class="kicker" data-t=".3" data-a="fade">13 · 05 · 1888 — Lei Áurea</div>
+      <h1 class="h-xl" data-t=".7" data-a="words" data-st=".08">A escravidão foi abolida no Brasil.</h1>
+      <h2 class="h-serif amber mt2" data-t="3.4" data-a="words" data-st=".14"><em>Mas ela não desapareceu.</em></h2>
+      <p class="lead muted mt2" data-t="5.6" data-a="up">Ela mudou de forma.</p>
+    </div></div>
+  </section>
+
+  <!-- 2 · Título -->
+  <section class="scene" data-dur="7" data-hud="0" data-sfx="hit">
+    <div class="inner"><div class="center">
+      <div class="kicker" data-t=".2" data-a="fade">UNIFESO · Psicologia Organizacional e do Trabalho</div>
+      <h1 class="h-serif" style="font-size:150px;line-height:1.02">
+        <span class="line"><span data-t=".5" data-a="rise">Trabalho escravo</span></span>
+        <span class="line amber"><span data-t=".9" data-a="rise"><em>contemporâneo</em></span></span>
+      </h1>
+      <div class="rule" data-t="1.6" data-a="grow"></div>
+      <p class="lead" data-t="2" data-a="up">Causas, impactos e o papel da Psicologia</p>
+    </div></div>
+  </section>
+
+  <!-- 3 · Trabalho central -->
+  <section class="scene" data-dur="10" data-ch="01 · Contexto">
+    <div class="inner"><div class="wrap">
+      <h2 class="h-l" data-t=".3" data-a="words">O trabalho é central na vida humana:</h2>
+      <div class="chips" data-t="1.3" data-g="pop" data-st=".2">
+        <span class="chip t">subsistência</span><span class="chip t">identidade</span><span class="chip t">inserção social</span><span class="chip t">reconhecimento</span><span class="chip t">subjetividade</span>
+      </div>
+      <h2 class="h-l" data-t="4.6" data-a="words">Mas ele também pode carregar:</h2>
+      <div class="chips" data-t="5.6" data-g="pop" data-st=".22">
+        <span class="chip r">desigualdade</span><span class="chip r">relações de poder</span><span class="chip r">violência</span><span class="chip r">exploração</span>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 4 · Trabalho digno -->
+  <section class="scene" data-dur="10" data-ch="02 · Conceitos">
+    <div class="inner"><div class="wrap">
+      <h2 class="h-xl" data-t=".3" data-a="words" data-st=".09">Ter um emprego <span class="amber">≠</span> ter trabalho digno.</h2>
+      <p class="lead muted mt2" data-t="2.3" data-a="up">Para a OIT, <b style="color:var(--text)">trabalho decente</b> é aquele feito com:</p>
+      <div class="pillars" data-t="3.2" data-g="up" data-st=".3">
+        <div class="pillar"><span class="n">01</span><span class="t">Liberdade</span></div>
+        <div class="pillar"><span class="n">02</span><span class="t">Equidade</span></div>
+        <div class="pillar"><span class="n">03</span><span class="t">Segurança</span></div>
+        <div class="pillar"><span class="n">04</span><span class="t">Dignidade</span></div>
+      </div>
+      <p class="foot" data-t="5.8" data-a="fade">Delgado: o trabalho é um direito fundamental ligado à dignidade da pessoa humana.</p>
+    </div></div>
+  </section>
+
+  <!-- 5 · Art. 149 -->
+  <section class="scene" data-dur="12" data-ch="02 · Conceitos">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-t=".2" data-a="fade">Art. 149 do Código Penal</div>
+      <h2 class="h-xl" data-t=".4" data-a="words">O que é trabalho escravo hoje?</h2>
+      <div class="cards" data-t="2" data-g="up" data-st=".55">
+        <div class="card"><div class="n">01</div><h3>Trabalho forçado</h3><p>Ameaça, violência, fraude ou coerção impedem a saída.</p></div>
+        <div class="card"><div class="n">02</div><h3>Jornada exaustiva</h3><p>Esforço muito além do limite, sem descanso.</p></div>
+        <div class="card"><div class="n">03</div><h3>Condições degradantes</h3><p>Sem água potável, higiene, comida ou proteção.</p></div>
+        <div class="card"><div class="n">04</div><h3>Servidão por dívida</h3><p>A dívida vira uma forma de prender o trabalhador.</p></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 6 · Correntes -->
+  <section class="scene" data-dur="8.5" data-ch="02 · Conceitos">
+    <div class="inner"><div class="center">
+      <h2 class="h-xxl" data-t=".3" data-a="words">Não precisa haver <span class="strike" data-t="2" data-a="strike">correntes.</span></h2>
+      <p class="lead muted mt2" data-t="3" data-a="up">Hoje, o controle pode ser:</p>
+      <div class="ctrl" data-t="3.8" data-g="pop" data-st=".28">
+        <span>econômico</span><span>psicológico</span><span>social</span><span>organizacional</span>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 7 · Servidão por dívida -->
+  <section class="scene" data-dur="11" data-ch="02 · Conceitos">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-t=".2" data-a="fade">Como funciona a servidão por dívida</div>
+      <h2 class="h-l" data-t=".4" data-a="words">Uma armadilha em quatro passos</h2>
+      <div class="flow">
+        <div class="step" data-t="1.5" data-a="up"><div class="n">1</div><h4>A promessa</h4><p>Uma oferta de emprego que parece uma saída.</p></div>
+        <div class="arrow"><svg viewBox="0 0 64 40"><path data-t="2.3" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#eaa53f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step" data-t="2.6" data-a="up"><div class="n">2</div><h4>A chegada</h4><p>O trabalhador chega longe de casa e da sua rede.</p></div>
+        <div class="arrow"><svg viewBox="0 0 64 40"><path data-t="3.4" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#eaa53f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step" data-t="3.7" data-a="up"><div class="n">3</div><h4>A dívida</h4><p>Transporte, comida, ferramentas: tudo é cobrado.</p></div>
+        <div class="arrow"><svg viewBox="0 0 64 40"><path data-t="4.5" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#d0553a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step bad" data-t="4.8" data-a="pop"><div class="n">4</div><h4>Sem saída</h4><p>A dívida nunca acaba, e ele não pode ir embora.</p></div>
+      </div>
+      <p class="foot" data-t="6.6" data-a="up" style="color:var(--text);font-size:40px">A dívida vira <span class="mark pre" data-t="7.4" data-a="mark">mecanismo de controle</span>.</p>
+    </div></div>
+  </section>
+
+  <!-- 8 · Por que persiste -->
+  <section class="scene" data-dur="12" data-ch="03 · Causas">
+    <div class="inner"><div class="wrap" style="top:120px">
+      <h2 class="h-xl" data-t=".3" data-a="words">Por que isso ainda existe?</h2>
+      <p class="lead muted mt1" data-t="1.3" data-a="up">Não há uma causa única <span class="cite">· Figueira (2000)</span></p>
+      <div class="cloud" data-t="2.2" data-g="pop" data-st=".2">
+        <span style="left:0;top:50px">pobreza</span>
+        <span style="left:300px;top:150px">desemprego</span>
+        <span style="left:690px;top:40px">migração</span>
+        <span style="left:1040px;top:130px">baixa escolaridade</span>
+        <span style="left:60px;top:270px">aliciamento e fraude</span>
+        <span style="left:560px;top:270px">isolamento geográfico</span>
+        <span style="left:1100px;top:290px">fiscalização frágil</span>
+        <span style="left:220px;top:400px">desigualdade social</span>
+        <span style="left:760px;top:420px">terceirização</span>
+      </div>
+      <div style="text-align:center"><span class="banner"><span class="mark" data-t="5.6" data-a="mark" data-d="1">Vulnerabilidade não é escolha.</span></span></div>
+    </div></div>
+  </section>
+
+  <!-- 9 · Cadeias -->
+  <section class="scene" data-dur="11.5" data-ch="03 · Causas">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-t=".2" data-a="fade">Uma questão também de gestão</div>
+      <h2 class="h-l" data-t=".4" data-a="words">A exploração pode se esconder nas cadeias produtivas</h2>
+      <div class="chain" data-t="2" data-g="left" data-st=".35">
+        <div class="link">Empresa<small>contratante</small></div>
+        <div class="chev">›</div>
+        <div class="link d1">Fornecedor</div>
+        <div class="chev">›</div>
+        <div class="link d2">Terceirizada</div>
+        <div class="chev">›</div>
+        <div class="link d3">Subcontratada</div>
+        <div class="chev">›</div>
+        <div class="link worker">Trabalhador<small>invisível</small></div>
+      </div>
+      <p class="foot" data-t="5.6" data-a="up" style="color:var(--text);font-size:38px">Quanto mais longa a cadeia, menos se enxergam as condições reais de trabalho.</p>
+      <p class="cite mt1" data-t="6.4" data-a="fade">Mascarenhas, Dias e Baptista (2015) · Viana (2006) · Santos et al. (2019)</p>
+    </div></div>
+  </section>
+
+  <!-- 10 · Saúde pública -->
+  <section class="scene" data-dur="12" data-ch="04 · Impactos">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-t=".2" data-a="fade">Leão (2016)</div>
+      <h2 class="h-xl" data-t=".4" data-a="words">Um problema de saúde pública</h2>
+      <div class="cols">
+        <div class="col"><h3 data-t="1.6" data-a="fade">NO CORPO</h3><ul data-t="2" data-g="left" data-st=".3"><li>Esforço físico intenso</li><li>Exposição ao sol</li><li>Acidentes e doenças</li><li>Alimentação inadequada</li></ul></div>
+        <div class="col mind"><h3 data-t="3.4" data-a="fade">NA MENTE</h3><ul data-t="3.8" data-g="left" data-st=".3"><li>Medo</li><li>Vergonha e culpa</li><li>Desânimo</li><li>Sensação de fracasso</li></ul></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 11 · Sofrimento -->
+  <section class="scene" data-dur="10" data-ch="04 · Impactos">
+    <div class="inner"><div class="center" style="align-items:flex-start;text-align:left">
+      <p class="quote" data-t=".3" data-a="words" data-st=".06"><span class="q">“</span>Com humilhação, ameaça e isolamento, o trabalho deixa de ser fonte de <span class="teal">reconhecimento</span> e vira fonte de <span class="amber">sofrimento</span>.</p>
+      <p class="cite mt2" data-t="3.4" data-a="fade">Psicodinâmica do Trabalho · Vieira, Marinho e Ghizoni (2018)</p>
+      <p class="lead mt2" data-t="5" data-a="up" style="max-width:1400px">O sofrimento <b class="amber">não é falha individual</b>: ele nasce da organização do trabalho e das relações de poder.</p>
+    </div></div>
+  </section>
+
+  <!-- 12 · CASO REAL -->
+  <section class="scene light" data-dur="7" data-ch="05 · Caso real" data-sfx="hit">
+    <div class="inner"><div class="center">
+      <div class="stamp" data-t=".4" data-a="stamp">Caso real</div>
+      <div class="src" data-t="1.6" data-a="up">g1 Ceará · julho de 2026</div>
+      <h2 class="h-serif mt1" style="font-size:80px" data-t="2.4" data-a="words"><em>Trabalho doméstico e dependência social</em></h2>
+    </div></div>
+  </section>
+
+  <!-- 13 · Linha do tempo da vida -->
+  <section class="scene light" data-dur="13" data-ch="05 · Caso real">
+    <div class="inner">
+      <div class="bigc">
+        <div class="lbl" data-t=".3" data-a="up">Uma mulher passou</div>
+        <div class="num" data-t="2.4" data-d="5.4" data-a="count" data-to="55" data-ease="inout">0</div>
+        <div class="lbl" data-t="2.8" data-a="up"><b>anos</b> vinculada à mesma família.</div>
+      </div>
+      <div class="tlbox">
+        <div class="track"><div class="fill" data-t="2.4" data-d="5.4" data-a="grow" data-ease="inout"></div></div>
+        <div class="dot" style="left:-6px" data-t="1.2" data-a="pop"></div>
+        <div class="dot" style="right:-6px" data-t="7.8" data-a="pop"></div>
+        <div class="age" style="left:0" data-t="1.3" data-a="up"><b>7 anos</b>Ainda criança, passa a viver e trabalhar com a família.</div>
+        <div class="age r" data-t="8" data-a="up"><b>62 anos</b>É resgatada.</div>
+      </div>
+      <div class="center" style="top:auto;bottom:110px;height:auto">
+        <p class="lead" data-t="9.4" data-a="up" style="color:#1d1a17">Caso investigado como <b style="color:var(--rust)">trabalho análogo à escravidão</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · O que a fiscalização encontrou -->
+  <section class="scene light" data-dur="11" data-ch="05 · Caso real">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-t=".2" data-a="fade">Segundo a reportagem</div>
+      <h2 class="h-l" data-t=".4" data-a="words" style="color:#1d1a17">O que a fiscalização identificou</h2>
+      <ul class="found" data-t="1.7" data-g="left" data-st=".55">
+        <li><i>✕</i>Nenhuma remuneração</li>
+        <li><i>✕</i>Dependência econômica e social</li>
+        <li><i>✕</i>Dificuldade de acesso à educação</li>
+        <li><i>✕</i>Pouca autonomia</li>
+        <li><i>✕</i>Quase nenhuma relação fora da família</li>
+      </ul>
+    </div></div>
+  </section>
+
+  <!-- 15 · Outro lado -->
+  <section class="scene light" data-dur="9" data-ch="05 · Caso real">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-t=".2" data-a="fade">O outro lado</div>
+      <div class="side" data-t=".5" data-a="left">
+        <p data-t=".7" data-a="words" data-st=".05">A família nega as acusações. Diz que havia <em>vínculos de cuidado e afeto</em> e que as obrigações trabalhistas eram cumpridas.</p>
+      </div>
+      <div><span class="note" data-t="4.2" data-a="up">⚖&nbsp; São alegações da defesa. As conclusões sobre o caso cabem aos órgãos de fiscalização.</span></div>
+    </div></div>
+  </section>
+
+  <!-- 16 · Depois do resgate -->
+  <section class="scene light" data-dur="12.5" data-ch="05 · Caso real">
+    <div class="inner"><div class="wrap">
+      <h2 class="h-xl" data-t=".3" data-a="words" style="color:#1d1a17">E depois do resgate?</h2>
+      <p class="lead mt1" data-t="1.4" data-a="up" style="color:#5d5246">Sair da exploração <b style="color:var(--rust)">não encerra</b> a necessidade de cuidado.</p>
+      <div class="stairs" data-t="3" data-g="growy" data-st=".35">
+        <div>Acompanha&shy;mento psicossocial</div><div>Acesso à educação</div><div>Fortalecer vínculos</div><div>Inserção social</div><div>Garantia de direitos</div>
+      </div>
+      <p class="foot" data-t="6.4" data-a="up" style="color:#1d1a17;font:400 46px/1.25 'Fraunces',serif;margin-top:40px"><em>Reconstruir a autonomia</em> depois de uma vida inteira de dependência.</p>
+    </div></div>
+  </section>
+
+  <!-- 17 · Políticas públicas -->
+  <section class="scene" data-dur="13" data-ch="06 · Enfrentamento">
+    <div class="inner"><div class="wrap" style="top:130px">
+      <div class="kicker" data-t=".2" data-a="fade">Política pública · Galiza et al. (2018)</div>
+      <h2 class="h-l" data-t=".4" data-a="words">Como o Brasil construiu o combate</h2>
+      <div class="ptl">
+        <svg viewBox="0 0 1600 20"><line data-t="1.4" data-d="3.2" data-a="draw" x1="0" y1="10" x2="1600" y2="10" stroke="#5a524a" stroke-width="3"/></svg>
+        <div class="pev" style="left:0" data-t="1.6" data-a="up"><div class="y">1957</div><div class="p"></div><div class="d">Brasil ratifica a Convenção nº 29 da OIT</div></div>
+        <div class="pev" style="left:410px" data-t="2.4" data-a="up"><div class="y">1965</div><div class="p"></div><div class="d">Convenção nº 105 da OIT</div></div>
+        <div class="pev" style="left:820px" data-t="3.2" data-a="up"><div class="y">1995</div><div class="p"></div><div class="d">Grupo Especial de Fiscalização Móvel</div></div>
+        <div class="pev" style="left:1230px;width:400px" data-t="4" data-a="up"><div class="y">2003</div><div class="p"></div><div class="d">Plano Nacional, CONATRAE e Lei 10.803 (novo art. 149)</div></div>
+      </div>
+      <div class="callout" data-t="6.6" data-a="up" style="margin-top:-60px"><span style="font-size:60px">⚠</span><span><b>Menos resgates ≠ menos casos.</b> Os números também dependem da capacidade de fiscalizar.</span></div>
+    </div></div>
+  </section>
+
+  <!-- 18 · Papel da POT -->
+  <section class="scene" data-dur="14" data-ch="06 · Enfrentamento">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-t=".2" data-a="fade" style="color:var(--teal)">Psicologia Organizacional e do Trabalho</div>
+      <h2 class="h-xl" data-t=".4" data-a="words">Onde a POT pode atuar</h2>
+      <div class="pot" data-t="1.8" data-g="up" data-st=".7">
+        <div class="pc"><svg viewBox="0 0 48 48"><path d="M24 4 L40 10 V24 C40 34 32 41 24 44 C16 41 8 34 8 24 V10 Z"/><path d="M17 24 L22 29 L31 19"/></svg><h3>Prevenir</h3><p>Riscos psicossociais, ações educativas e canais seguros de denúncia.</p></div>
+        <div class="pc"><svg viewBox="0 0 48 48"><path d="M24 42 C10 32 4 25 4 17 C4 11 9 6 15 6 C19 6 22 8 24 12 C26 8 29 6 33 6 C39 6 44 11 44 17 C44 25 38 32 24 42 Z"/></svg><h3>Acolher</h3><p>Escuta qualificada em equipes multiprofissionais de saúde.</p></div>
+        <div class="pc"><svg viewBox="0 0 48 48"><path d="M4 42 H14 V32 H24 V22 H34 V12 H44"/><path d="M36 4 L44 12 L36 20"/></svg><h3>Reconstruir</h3><p>Autonomia, autoestima, projetos de vida e reinserção.</p></div>
+        <div class="pc"><svg viewBox="0 0 48 48"><circle cx="20" cy="20" r="13"/><path d="M30 30 L43 43"/></svg><h3>Analisar</h3><p>Gestão, terceirização, recrutamento e condições de trabalho.</p></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 19 · Ética -->
+  <section class="scene" data-dur="10.5" data-ch="06 · Enfrentamento">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-t=".2" data-a="fade">Desafios éticos</div>
+      <div class="eth" data-t=".6" data-g="left" data-st="1.4">
+        <div><span class="n">01</span><span class="t">Produtividade <span class="amber">nunca</span> acima da dignidade.</span></div>
+        <div><span class="n">02</span><span class="t">Não culpar a vítima.</span></div>
+        <div><span class="n">03</span><span class="t">Não adaptar a pessoa à violência.</span></div>
+      </div>
+      <p class="foot" data-t="5.4" data-a="up">Pobreza e baixa escolaridade não explicam nem justificam a exploração.</p>
+    </div></div>
+  </section>
+
+  <!-- 20 · Rede -->
+  <section class="scene" data-dur="11" data-ch="06 · Enfrentamento">
+    <div class="inner">
+      <div style="position:absolute;left:160px;top:120px">
+        <h2 class="h-l" data-t=".3" data-a="words">Enfrentar exige <span class="amber">rede</span></h2>
+      </div>
+      <div class="net">
+        <svg viewBox="0 0 1920 1080" fill="none" stroke="rgba(234,165,63,.45)" stroke-width="3">
+          <line data-t="1.4" data-a="draw" x1="960" y1="600" x2="960" y2="320"/>
+          <line data-t="1.6" data-a="draw" x1="960" y1="600" x2="1420" y2="400"/>
+          <line data-t="1.8" data-a="draw" x1="960" y1="600" x2="1590" y2="600"/>
+          <line data-t="2.0" data-a="draw" x1="960" y1="600" x2="1420" y2="800"/>
+          <line data-t="2.2" data-a="draw" x1="960" y1="600" x2="960" y2="890"/>
+          <line data-t="2.4" data-a="draw" x1="960" y1="600" x2="500" y2="800"/>
+          <line data-t="2.6" data-a="draw" x1="960" y1="600" x2="330" y2="600"/>
+          <line data-t="2.8" data-a="draw" x1="960" y1="600" x2="500" y2="400"/>
+        </svg>
+        <div class="node hub" style="left:960px;top:600px" data-t=".9" data-a="pop">Dignidade</div>
+        <div class="node" style="left:960px;top:320px" data-t="1.7" data-a="pop">Fiscalização</div>
+        <div class="node" style="left:1420px;top:400px" data-t="1.9" data-a="pop">Políticas públicas</div>
+        <div class="node" style="left:1590px;top:600px" data-t="2.1" data-a="pop">Saúde</div>
+        <div class="node" style="left:1420px;top:800px" data-t="2.3" data-a="pop">Assistência social</div>
+        <div class="node" style="left:960px;top:890px" data-t="2.5" data-a="pop">Justiça</div>
+        <div class="node" style="left:500px;top:800px" data-t="2.7" data-a="pop">Organizações</div>
+        <div class="node" style="left:330px;top:600px" data-t="2.9" data-a="pop">Psicologia</div>
+        <div class="node" style="left:500px;top:400px" data-t="3.1" data-a="pop">Direitos humanos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21 · Conclusão -->
+  <section class="scene" data-dur="9" data-ch="07 · Conclusão">
+    <div class="inner"><div class="center">
+      <h2 class="h-serif" style="font-size:112px">
+        <span class="line"><span data-t=".4" data-a="rise">O trabalho deve ser fonte de</span></span>
+        <span class="line teal"><span data-t=".9" data-a="rise"><em>dignidade</em>,</span></span>
+        <span class="line"><span data-t="1.9" data-a="rise">nunca de <span class="rust"><em>violação</em></span>.</span></span>
+      </h2>
+      <p class="lead mt3" data-t="4" data-a="up" style="font-size:36px"><span class="muted">Viu algo assim? Denuncie:</span> <b class="amber">Disque 100</b> <span class="muted">·</span> <b class="amber">Sistema Ipê</b> <span class="muted">(ipe.sit.trabalho.gov.br)</span></p>
+    </div></div>
+  </section>
+
+  <!-- 22 · Créditos -->
+  <section class="scene" data-dur="13" data-hud="0" data-ch="">
+    <div class="inner">
+      <div class="cred">
+        <div>
+          <div class="lbl" data-t=".3" data-a="fade">Trabalho · AV1 · 2026</div>
+          <h2 data-t=".5" data-a="words" data-st=".07">Psicologia Organizacional e do Trabalho: <em class="amber">desafios contemporâneos</em></h2>
+          <p class="inst" data-t="2" data-a="up">Centro Universitário Serra dos Órgãos — UNIFESO<br>Curso de Graduação em Psicologia<br>Teresópolis, RJ · 2026</p>
+        </div>
+        <div>
+          <div class="lbl" data-t="1.4" data-a="fade">Professor</div>
+          <div class="prof" data-t="1.6" data-a="up">Felipe Lemos Josué</div>
+          <div class="lbl" data-t="2.4" data-a="fade">Autoras</div>
+          <ul data-t="2.7" data-g="left" data-st=".3">
+            <li>Ana Caroline Lopes de Lima</li>
+            <li>Giseli da Silva de Carvalho</li>
+            <li>Isabel Lafetá da Fonseca</li>
+            <li>Juliana Josy de F. H. Loureiro</li>
+            <li>Letícia Chaves Gomes</li>
+          </ul>
+        </div>
+      </div>
+      <p class="refs" data-t="5" data-a="fade">Referências: Figueira (2000) · Viana (2006) · Miraglia (2008) · Leão (2016) · Arbex, Galiza e Oliveira (2018). Caso: g1 Ceará, jul. 2026.</p>
+    </div>
+  </section>
+
+  <div id="hud"><div class="tl"><i></i>Trabalho escravo contemporâneo</div><div class="ch"></div><div class="bar"><b></b></div></div>
+  <div id="vignette"></div>
+  <canvas id="grain" width="256" height="256"></canvas>
+</div>
+
+<script>
+(() => {
+const stage = document.getElementById('stage');
+const scenes = [...document.querySelectorAll('.scene')];
+const hud = document.getElementById('hud'), hudCh = hud.querySelector('.ch'), hudBar = hud.querySelector('.bar b');
+const clamp = (x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const E = {
+  out: p=>1-Math.pow(1-p,3),
+  inout: p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2,
+  back: p=>{const c1=1.7,c3=c1+1;return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2)},
+};
+
+// split text into word spans (keeps nested markup)
+function splitWords(el){
+  const out=[];
+  const walk=n=>{
+    [...n.childNodes].forEach(c=>{
+      if(c.nodeType===3){
+        const parts=c.textContent.split(/(\s+)/);
+        const frag=document.createDocumentFragment();
+        parts.forEach(p=>{
+          if(!p) return;
+          if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(' '));return;}
+          const s=document.createElement('span');s.className='w';s.textContent=p;frag.appendChild(s);out.push(s);
+        });
+        c.replaceWith(frag);
+      } else if(c.nodeType===1 && !c.dataset.a){ walk(c); }
+      else if(c.nodeType===1){ out.push(c); }
+    });
+  };
+  walk(el);
+  return out;
+}
+
+// build timeline
+let acc=0;
+scenes.forEach((s,i)=>{
+  s._start=acc; s._dur=+s.dataset.dur; acc+=s._dur; s._items=[];
+  s._inner=s.querySelector('.inner');
+  const add=(el,t,a,d)=>s._items.push({el,t,a,d,ease:el.dataset.ease});
+  s.querySelectorAll('[data-g]').forEach(g=>{
+    const t=+g.dataset.t, st=+(g.dataset.st||.2), a=g.dataset.g;
+    [...g.children].forEach((c,k)=>add(c,t+k*st,a,+(g.dataset.d||.8)));
+  });
+  s.querySelectorAll('[data-a]').forEach(el=>{
+    const t=+el.dataset.t, a=el.dataset.a, d=+(el.dataset.d||(a==='draw'?.6:.8));
+    if(a==='words'){
+      const st=+(el.dataset.st||.07);
+      splitWords(el).forEach((w,k)=>{
+        add(w,t+k*st,'wordup',.7);
+      });
+    } else add(el,t,a,d);
+  });
+  s._items.forEach(it=>{
+    if(it.a==='draw'){ const L=it.el.getTotalLength(); it.len=L; it.el.style.strokeDasharray=L; }
+  });
+});
+const TOTAL=acc;
+window.__TIMELINE={total:TOTAL,scenes:scenes.map(s=>({start:s._start,dur:s._dur,sfx:s.dataset.sfx||'',light:s.classList.contains('light')}))};
+
+// grain
+const g=document.getElementById('grain'), gx=g.getContext('2d'), id=gx.createImageData(256,256);
+let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+for(let i=0;i<id.data.length;i+=4){const v=rnd()*255;id.data[i]=id.data[i+1]=id.data[i+2]=v;id.data[i+3]=255}
+gx.putImageData(id,0,0);
+g.style.width='2048px';g.style.height='1208px';g.style.imageRendering='pixelated';
+const grainURL=g.toDataURL(); g.remove();
+const grain=document.createElement('div');grain.id='grain';grain.style.backgroundImage=`url(${grainURL})`;grain.style.backgroundSize='256px 256px';stage.appendChild(grain);
+
+function applyItem(it,lt){
+  const raw=clamp((lt-it.t)/it.d);
+  const el=it.el, a=it.a;
+  let p = it.ease==='inout'?E.inout(raw):(a==='pop'||a==='stamp'?E.back(raw):E.out(raw));
+  if(a==='pop'||a==='stamp') p = raw>=1?1:p;
+  const o=E.out(clamp(raw*1.6));
+  switch(a){
+    case 'fade': el.style.opacity=o; break;
+    case 'up': el.style.opacity=o; el.style.transform=`translateY(${(1-p)*46}px)`; break;
+    case 'wordup': el.style.opacity=o; el.style.transform=`translateY(${(1-p)*0.5}em)`; el.style.filter=raw<1?`blur(${(1-o)*8}px)`:'none'; break;
+    case 'left': el.style.opacity=o; el.style.transform=`translateX(${(1-p)*-70}px)`; break;
+    case 'pop': el.style.opacity=o; el.style.transform=(el.classList.contains('node')?'translate(-50%,-50%) ':'')+`scale(${.55+.45*p})`; break;
+    case 'stamp': el.style.opacity=o; el.style.transform=`rotate(-6deg) scale(${2.3-1.3*p})`; break;
+    case 'rise': el.style.transform=`translateY(${(1-p)*115}%)`; break;
+    case 'grow': el.style.transform=`scaleX(${p})`; break;
+    case 'growy': el.style.transform=`scaleY(${p})`; el.style.opacity=o; break;
+    case 'draw': el.style.strokeDashoffset=it.len*(1-p); break;
+    case 'strike': el.style.setProperty('--p',p); break;
+    case 'mark': el.style.backgroundSize=`${p*100}% 100%`; if(el.classList.contains('pre')) el.style.color=p>.5?'#0f0d0c':''; break;
+    case 'count': el.textContent=Math.round(p*(+el.dataset.to)); break;
+  }
+}
+
+const FADE=.45; const vig=document.getElementById('vignette');
+function render(t){
+  let cur=null;
+  scenes.forEach(s=>{
+    const lt=t-s._start;
+    if(lt<0||lt>=s._dur){ if(s._vis){s.style.visibility='hidden';s._vis=false;} return; }
+    cur=s;
+    if(!s._vis){s.style.visibility='visible';s._vis=true;}
+    const fin=E.out(clamp(lt/FADE)), fout=E.inout(clamp((lt-(s._dur-FADE))/FADE));
+    s.style.opacity=fin*(1-fout);
+    s._inner.style.transform=`scale(${1+.025*(lt/s._dur)+.03*fout})`;
+    s._items.forEach(it=>applyItem(it,lt));
+  });
+  if(cur){
+    const showHud=cur.dataset.hud!=='0';
+    hud.style.opacity=showHud?1:0;
+    hud.classList.toggle('light',cur.classList.contains('light'));
+    vig.style.opacity=cur.classList.contains('light')?.35:1;
+    hudCh.textContent=cur.dataset.ch||'';
+  }
+  hudBar.style.width=(t/TOTAL*100)+'%';
+  document.getElementById('b1').style.transform=`translate(${Math.sin(t*.13)*160}px,${Math.cos(t*.11)*120}px)`;
+  document.getElementById('b2').style.transform=`translate(${Math.cos(t*.09)*180}px,${Math.sin(t*.12)*140}px)`;
+  grain.style.transform=`translate(${-(Math.floor(t*24)*37%64)}px,${-(Math.floor(t*24)*53%64)}px)`;
+}
+window.__render=render;
+
+// preview mode: fit to window and play in real time (click = pause, ?t=SECONDS to start)
+function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(${(innerWidth-1920*k)/2}px,${(innerHeight-1080*k)/2}px) scale(${k})`}
+if(!window.__CAPTURE){
+  fit(); addEventListener('resize',fit);
+  const q=new URLSearchParams(location.search); let t0=performance.now()/1000-(+q.get('t')||0), paused=false, pt=0;
+  addEventListener('click',()=>{paused=!paused; if(!paused) t0=performance.now()/1000-pt;});
+  const loop=()=>{ if(!paused){pt=(performance.now()/1000-t0)%TOTAL;} render(pt); requestAnimationFrame(loop);}; loop();
+} else render(0);
+})();
+</script>
+</body>
+</html>
