@@ -5,6 +5,6 @@ cd "$(dirname "$0")"
 node render.mjs video
 python3 trilha.py
 ffmpeg -y -loglevel error -i out/video_noaudio.mp4 -i out/trilha.wav \
-  -af "loudnorm=I=-18:TP=-1.5:LRA=7" -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart \
+  -af "loudnorm=I=-18:TP=-1.5:LRA=7" -c:v libx264 -preset slow -crf 25 -maxrate 4M -bufsize 8M -pix_fmt yuv420p -c:a aac -b:a 160k -shortest -movflags +faststart \
   trabalho-escravo-contemporaneo.mp4
 echo "OK -> trabalho-escravo-contemporaneo.mp4"
