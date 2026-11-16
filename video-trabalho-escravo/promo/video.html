@@ -98,6 +98,7 @@ body{font-family:"Inter",system-ui,sans-serif;color:var(--text);-webkit-font-smo
 /* cta */
 .bubble{width:300px;height:300px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 30px rgba(47,191,113,.15),0 0 0 60px rgba(47,191,113,.07)}
 .bubble svg{width:150px;height:150px;fill:none;stroke:#fff;stroke-width:9;stroke-linejoin:round;stroke-linecap:round}
+.num{margin-top:44px;font:900 104px/1 "Inter Display",sans-serif;letter-spacing:-.03em;color:var(--green);white-space:nowrap}
 .btn{display:inline-block;margin-top:70px;white-space:nowrap;font:800 46px/1 "Inter",sans-serif;background:var(--green);color:#fff;padding:40px 64px;border-radius:999px}
 </style>
 <script src="cues.js"></script>
@@ -200,8 +201,9 @@ body{font-family:"Inter",system-ui,sans-serif;color:var(--text);-webkit-font-smo
   <section class="scene" data-id="cta" data-sfx="hit">
     <div class="inner"><div class="col">
       <div class="bubble" data-c="0" data-t="-.2" data-a="pop"><svg viewBox="0 0 64 64"><path d="M32 8 C17 8 7 18 7 30 C7 37 10 42 15 46 L12 57 L25 51 C27 52 29 52 32 52 C47 52 57 42 57 30 C57 18 47 8 32 8 Z"/></svg></div>
-      <h2 class="h1 mt3" data-c="0" data-a="words">Chama no WhatsApp</h2>
-      <p class="lead mt1 muted" data-c="0" data-tf=".6" data-a="up">e manda o seu trabalho</p>
+      <h2 class="h1 mt2" data-c="0" data-a="words">Chama no WhatsApp</h2>
+      <div class="num" data-c="0" data-tf=".5" data-a="pop">(21) 97340-6091</div>
+      <p class="lead mt1 muted" data-c="0" data-tf=".8" data-a="up">e manda o seu trabalho</p>
       <div class="btn" data-c="0" data-tf="1" data-a="pop">Orçamento sem compromisso</div>
     </div></div>
   </section>

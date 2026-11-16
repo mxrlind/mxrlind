@@ -52,7 +52,7 @@ ROTEIRO = [
 VOICE, SPEED = "pf_dora", 1.15
 LEAD, GAP, TAIL = 0.45, 0.25, 0.8      # segundos: antes da 1ª fala, entre falas, depois da última
 SR = 24000
-EXTRA = {"exemplo": 2.5, "precos": 1.0, "cta": 3.5}   # segundos a mais em cenas que precisam de tempo de leitura
+EXTRA = {"exemplo": 2.5, "precos": 1.0, "cta": 5.0}   # segundos a mais em cenas que precisam de tempo de leitura
 
 if __name__ == "__main__":
     here = os.path.dirname(os.path.abspath(__file__))
