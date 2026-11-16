@@ -36,13 +36,13 @@ ROTEIRO = [
   ]),
   ("precos", [
     "Os valores:",
-    "vídeo animado com música, de até três minutos, cinquenta reais.",
-    "Vídeo completo, com narração, de até dez minutos, noventa reais.",
+    "vídeo de até cinco minutos, trinta reais.",
+    "Vídeo de até dez minutos, cinquenta reais. Os dois podem ter narração.",
     "E, se for pra amanhã, entrega expressa por mais vinte.",
   ]),
   ("grupo", [
     "Dividindo no grupo de cinco,",
-    "o vídeo completo sai por dezoito reais pra cada um.",
+    "o vídeo de dez minutos sai por só dez reais pra cada um.",
   ]),
   ("cta", [
     "Chama no WhatsApp e manda o seu trabalho!",
