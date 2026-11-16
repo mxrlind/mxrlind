@@ -196,113 +196,138 @@ em{font-style:italic}
 .cred ul li{list-style:none;font:600 44px/1.2 "Inter Display",sans-serif;padding:16px 0;border-bottom:1px solid var(--line)}
 .cred .inst{font:500 28px/1.5 "Inter",sans-serif;color:var(--muted);margin-top:40px}
 .refs{position:absolute;left:160px;right:160px;bottom:96px;font:400 21px/1.45 "Inter",sans-serif;color:#7b746b}
+/* ---- cenas novas ---- */
+.obj{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:64px}
+.ob{border-top:5px solid var(--amber);background:var(--ink2);border-radius:0 0 22px 22px;padding:40px 40px 48px;min-height:330px}
+.ob .n{font:600 26px/1 "JetBrains Mono",monospace;color:var(--amber);letter-spacing:.12em;text-transform:uppercase}
+.ob h3{font:800 54px/1.08 "Inter Display",sans-serif;margin:26px 0 18px;letter-spacing:-.02em}
+.ob p{font:400 32px/1.35 "Inter",sans-serif;color:#cfc7bc}
+.step.good{border-color:rgba(56,165,150,.8);background:rgba(56,165,150,.12)}
+.step.good .n{background:var(--teal);color:#fff}
+.i3{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:64px}
+.i3 div{padding:44px 40px;border-radius:24px;border:1px solid var(--line);background:var(--ink2);min-height:360px}
+.i3 b{display:block;font:800 60px/1 "Inter Display",sans-serif;margin-bottom:26px;letter-spacing:-.02em}
+.i3 p{font:400 34px/1.38 "Inter",sans-serif;color:#cfc7bc}
+.i3 div:nth-child(1) b{color:#ff8a6e}.i3 div:nth-child(2) b{color:var(--amber)}.i3 div:nth-child(3) b{color:var(--teal)}
+.chip.a{color:var(--amber);border-color:rgba(234,165,63,.55);background:rgba(234,165,63,.09)}
+.chips.sm .chip{font-size:34px;padding:18px 28px}
+.cons div{display:flex;align-items:baseline;gap:40px;padding:26px 0;border-bottom:2px solid var(--line)}
+.cons .n{font:600 30px/1 "JetBrains Mono",monospace;color:var(--amber);width:60px;flex:none}
+.cons .t{font:700 58px/1.1 "Inter Display",sans-serif;letter-spacing:-.02em}
+.netcap{position:absolute;left:160px;bottom:110px;font:500 34px/1.3 "Inter",sans-serif;color:var(--muted)}
+.netcap b{color:var(--text)}
 </style>
+<script src="cues.js"></script>
 </head>
 <body>
 <div id="stage">
   <div class="blob" id="b1"></div><div class="blob" id="b2"></div>
 
-  <!-- 1 · Gancho -->
-  <section class="scene" data-dur="8" data-hud="0" data-sfx="rise">
+  <section class="scene" data-id="gancho" data-hud="0" data-sfx="rise">
     <div class="inner"><div class="center">
-      <div class="kicker" data-t=".3" data-a="fade">13 · 05 · 1888 — Lei Áurea</div>
-      <h1 class="h-xl" data-t=".7" data-a="words" data-st=".08">A escravidão foi abolida no Brasil.</h1>
-      <h2 class="h-serif amber mt2" data-t="3.4" data-a="words" data-st=".14"><em>Mas ela não desapareceu.</em></h2>
-      <p class="lead muted mt2" data-t="5.6" data-a="up">Ela mudou de forma.</p>
+      <div class="kicker" data-c="0" data-a="fade">13 · 05 · 1888 — Lei Áurea</div>
+      <h1 class="h-xl" data-c="0" data-tf=".42" data-a="words" data-st=".1">A escravidão foi abolida no Brasil.</h1>
+      <h2 class="h-serif amber mt2" data-c="1" data-a="words"><em>Mas ela não desapareceu.</em></h2>
+      <p class="lead muted mt2" data-c="2" data-a="up">Ela mudou de forma — e continua presente.</p>
     </div></div>
   </section>
 
-  <!-- 2 · Título -->
-  <section class="scene" data-dur="7" data-hud="0" data-sfx="hit">
+  <section class="scene" data-id="titulo" data-hud="0" data-sfx="hit">
     <div class="inner"><div class="center">
-      <div class="kicker" data-t=".2" data-a="fade">UNIFESO · Psicologia Organizacional e do Trabalho</div>
+      <div class="kicker" data-t=".1" data-a="fade">UNIFESO · Psicologia Organizacional e do Trabalho</div>
       <h1 class="h-serif" style="font-size:150px;line-height:1.02">
-        <span class="line"><span data-t=".5" data-a="rise">Trabalho escravo</span></span>
-        <span class="line amber"><span data-t=".9" data-a="rise"><em>contemporâneo</em></span></span>
+        <span class="line"><span data-t=".4" data-a="rise">Trabalho escravo</span></span>
+        <span class="line amber"><span data-t=".8" data-a="rise"><em>contemporâneo</em></span></span>
       </h1>
-      <div class="rule" data-t="1.6" data-a="grow"></div>
-      <p class="lead" data-t="2" data-a="up">Causas, impactos e o papel da Psicologia</p>
+      <div class="rule" data-t="1.5" data-a="grow"></div>
+      <p class="lead" data-c="1" data-a="up">Causas, impactos e o papel da Psicologia</p>
     </div></div>
   </section>
 
-  <!-- 3 · Trabalho central -->
-  <section class="scene" data-dur="10" data-ch="01 · Contexto">
+  <section class="scene" data-id="objetivo" data-ch="01 · Contexto">
     <div class="inner"><div class="wrap">
-      <h2 class="h-l" data-t=".3" data-a="words">O trabalho é central na vida humana:</h2>
-      <div class="chips" data-t="1.3" data-g="pop" data-st=".2">
+      <div class="kicker" data-c="0" data-a="fade">Objetivo do trabalho</div>
+      <h2 class="h-xl" data-c="0" data-a="words">Analisar como a literatura caracteriza o tema</h2>
+      <div class="obj" data-cs="1 2 3" data-g="up">
+        <div class="ob"><div class="n">01 · Fatores</div><h3>Por que persiste?</h3><p>Históricos, sociais e organizacionais.</p></div>
+        <div class="ob"><div class="n">02 · Impactos</div><h3>Quem é afetado?</h3><p>Trabalhadores, organizações e sociedade.</p></div>
+        <div class="ob"><div class="n">03 · Atuação</div><h3>O que a POT pode fazer?</h3><p>Possibilidades da Psicologia Organizacional e do Trabalho.</p></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="central" data-ch="01 · Contexto">
+    <div class="inner"><div class="wrap">
+      <h2 class="h-l" data-c="0" data-a="words">O trabalho é central na vida humana:</h2>
+      <div class="chips" data-c="1" data-tf=".22" data-g="pop" data-st="fit" data-fit=".7">
         <span class="chip t">subsistência</span><span class="chip t">identidade</span><span class="chip t">inserção social</span><span class="chip t">reconhecimento</span><span class="chip t">subjetividade</span>
       </div>
-      <h2 class="h-l" data-t="4.6" data-a="words">Mas ele também pode carregar:</h2>
-      <div class="chips" data-t="5.6" data-g="pop" data-st=".22">
+      <h2 class="h-l" data-c="2" data-a="words" data-st=".07">Mas ele também pode carregar:</h2>
+      <div class="chips" data-c="2" data-tf=".45" data-g="pop" data-st="fit" data-fit=".5">
         <span class="chip r">desigualdade</span><span class="chip r">relações de poder</span><span class="chip r">violência</span><span class="chip r">exploração</span>
       </div>
     </div></div>
   </section>
 
-  <!-- 4 · Trabalho digno -->
-  <section class="scene" data-dur="10" data-ch="02 · Conceitos">
+  <section class="scene" data-id="digno" data-ch="02 · Conceitos">
     <div class="inner"><div class="wrap">
-      <h2 class="h-xl" data-t=".3" data-a="words" data-st=".09">Ter um emprego <span class="amber">≠</span> ter trabalho digno.</h2>
-      <p class="lead muted mt2" data-t="2.3" data-a="up">Para a OIT, <b style="color:var(--text)">trabalho decente</b> é aquele feito com:</p>
-      <div class="pillars" data-t="3.2" data-g="up" data-st=".3">
+      <h2 class="h-xl" data-c="0" data-a="words">Ter um emprego <span class="amber">≠</span> ter trabalho digno.</h2>
+      <p class="lead muted mt2" data-c="1" data-a="up">Para a OIT, <b style="color:var(--text)">trabalho decente</b> é aquele feito com:</p>
+      <div class="pillars" data-c="1" data-tf=".55" data-g="up" data-st="fit" data-fit=".4">
         <div class="pillar"><span class="n">01</span><span class="t">Liberdade</span></div>
         <div class="pillar"><span class="n">02</span><span class="t">Equidade</span></div>
         <div class="pillar"><span class="n">03</span><span class="t">Segurança</span></div>
         <div class="pillar"><span class="n">04</span><span class="t">Dignidade</span></div>
       </div>
-      <p class="foot" data-t="5.8" data-a="fade">Delgado: o trabalho é um direito fundamental ligado à dignidade da pessoa humana.</p>
+      <p class="foot" data-c="2" data-a="up" style="color:var(--text)">Delgado: o trabalho é um <b class="amber">direito fundamental</b>. O trabalhador não é instrumento de lucro.</p>
     </div></div>
   </section>
 
-  <!-- 5 · Art. 149 -->
-  <section class="scene" data-dur="12" data-ch="02 · Conceitos">
+  <section class="scene" data-id="art149" data-ch="02 · Conceitos">
     <div class="inner"><div class="wrap">
-      <div class="kicker" data-t=".2" data-a="fade">Art. 149 do Código Penal</div>
-      <h2 class="h-xl" data-t=".4" data-a="words">O que é trabalho escravo hoje?</h2>
-      <div class="cards" data-t="2" data-g="up" data-st=".55">
+      <div class="kicker" data-c="0" data-a="fade">Art. 149 do Código Penal</div>
+      <h2 class="h-xl" data-c="0" data-a="words">O que é trabalho escravo hoje?</h2>
+      <div class="cards" data-cs="1 2 3 4" data-g="up">
         <div class="card"><div class="n">01</div><h3>Trabalho forçado</h3><p>Ameaça, violência, fraude ou coerção impedem a saída.</p></div>
         <div class="card"><div class="n">02</div><h3>Jornada exaustiva</h3><p>Esforço muito além do limite, sem descanso.</p></div>
         <div class="card"><div class="n">03</div><h3>Condições degradantes</h3><p>Sem água potável, higiene, comida ou proteção.</p></div>
-        <div class="card"><div class="n">04</div><h3>Servidão por dívida</h3><p>A dívida vira uma forma de prender o trabalhador.</p></div>
+        <div class="card"><div class="n">04</div><h3>Servidão por dívida</h3><p>A dívida restringe a liberdade do trabalhador.</p></div>
       </div>
     </div></div>
   </section>
 
-  <!-- 6 · Correntes -->
-  <section class="scene" data-dur="8.5" data-ch="02 · Conceitos">
+  <section class="scene" data-id="correntes" data-ch="02 · Conceitos">
     <div class="inner"><div class="center">
-      <h2 class="h-xxl" data-t=".3" data-a="words">Não precisa haver <span class="strike" data-t="2" data-a="strike">correntes.</span></h2>
-      <p class="lead muted mt2" data-t="3" data-a="up">Hoje, o controle pode ser:</p>
-      <div class="ctrl" data-t="3.8" data-g="pop" data-st=".28">
+      <h2 class="h-xxl" data-c="0" data-a="words">Não precisa haver <span class="strike" data-c="0" data-tf=".85" data-a="strike">correntes.</span></h2>
+      <p class="lead muted mt2" data-c="1" data-a="up">Hoje, o controle pode ser:</p>
+      <div class="ctrl" data-c="1" data-tf=".4" data-g="pop" data-st="fit" data-fit=".45">
         <span>econômico</span><span>psicológico</span><span>social</span><span>organizacional</span>
       </div>
     </div></div>
   </section>
 
-  <!-- 7 · Servidão por dívida -->
-  <section class="scene" data-dur="11" data-ch="02 · Conceitos">
+  <section class="scene" data-id="divida" data-ch="02 · Conceitos">
     <div class="inner"><div class="wrap">
-      <div class="kicker" data-t=".2" data-a="fade">Como funciona a servidão por dívida</div>
-      <h2 class="h-l" data-t=".4" data-a="words">Uma armadilha em quatro passos</h2>
+      <div class="kicker" data-c="0" data-a="fade">Como funciona a servidão por dívida</div>
+      <h2 class="h-l" data-c="0" data-a="words">Uma armadilha em quatro passos</h2>
       <div class="flow">
-        <div class="step" data-t="1.5" data-a="up"><div class="n">1</div><h4>A promessa</h4><p>Uma oferta de emprego que parece uma saída.</p></div>
-        <div class="arrow"><svg viewBox="0 0 64 40"><path data-t="2.3" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#eaa53f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="step" data-t="2.6" data-a="up"><div class="n">2</div><h4>A chegada</h4><p>O trabalhador chega longe de casa e da sua rede.</p></div>
-        <div class="arrow"><svg viewBox="0 0 64 40"><path data-t="3.4" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#eaa53f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="step" data-t="3.7" data-a="up"><div class="n">3</div><h4>A dívida</h4><p>Transporte, comida, ferramentas: tudo é cobrado.</p></div>
-        <div class="arrow"><svg viewBox="0 0 64 40"><path data-t="4.5" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#d0553a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="step bad" data-t="4.8" data-a="pop"><div class="n">4</div><h4>Sem saída</h4><p>A dívida nunca acaba, e ele não pode ir embora.</p></div>
+        <div class="step" data-c="1" data-a="up"><div class="n">1</div><h4>A promessa</h4><p>Uma oferta de emprego que parece uma saída.</p></div>
+        <div class="arrow"><svg viewBox="0 0 64 40"><path data-c="2" data-t="-.3" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#eaa53f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step" data-c="2" data-a="up"><div class="n">2</div><h4>A chegada</h4><p>Longe de casa e da sua rede de apoio.</p></div>
+        <div class="arrow"><svg viewBox="0 0 64 40"><path data-c="3" data-t="-.3" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#eaa53f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step" data-c="3" data-a="up"><div class="n">3</div><h4>A dívida</h4><p>Transporte, comida, ferramentas: tudo é cobrado.</p></div>
+        <div class="arrow"><svg viewBox="0 0 64 40"><path data-c="4" data-t="-.3" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#d0553a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step bad" data-c="4" data-a="pop"><div class="n">4</div><h4>Sem saída</h4><p>A dívida nunca acaba, e ele não pode ir embora.</p></div>
       </div>
-      <p class="foot" data-t="6.6" data-a="up" style="color:var(--text);font-size:40px">A dívida vira <span class="mark pre" data-t="7.4" data-a="mark">mecanismo de controle</span>.</p>
+      <p class="foot" data-c="4" data-tf=".4" data-a="up" style="color:var(--text);font-size:40px">A dívida vira <span class="mark pre" data-c="4" data-tf=".6" data-a="mark">mecanismo de controle</span>.</p>
     </div></div>
   </section>
 
-  <!-- 8 · Por que persiste -->
-  <section class="scene" data-dur="12" data-ch="03 · Causas">
+  <section class="scene" data-id="causas" data-ch="03 · Causas">
     <div class="inner"><div class="wrap" style="top:120px">
-      <h2 class="h-xl" data-t=".3" data-a="words">Por que isso ainda existe?</h2>
-      <p class="lead muted mt1" data-t="1.3" data-a="up">Não há uma causa única <span class="cite">· Figueira (2000)</span></p>
-      <div class="cloud" data-t="2.2" data-g="pop" data-st=".2">
+      <h2 class="h-xl" data-c="0" data-a="words" data-st=".09">Por que isso ainda existe?</h2>
+      <p class="lead muted mt1" data-c="0" data-tf=".45" data-a="up">Não há uma causa única <span class="cite">· Figueira (2000)</span></p>
+      <div class="cloud" data-c="1" data-g="pop" data-st="fit" data-fit=".8">
         <span style="left:0;top:50px">pobreza</span>
         <span style="left:300px;top:150px">desemprego</span>
         <span style="left:690px;top:40px">migração</span>
@@ -313,16 +338,15 @@ em{font-style:italic}
         <span style="left:220px;top:400px">desigualdade social</span>
         <span style="left:760px;top:420px">terceirização</span>
       </div>
-      <div style="text-align:center"><span class="banner"><span class="mark" data-t="5.6" data-a="mark" data-d="1">Vulnerabilidade não é escolha.</span></span></div>
+      <div style="text-align:center"><span class="banner"><span class="mark" data-c="2" data-a="mark" data-d="1">Vulnerabilidade não é escolha.</span></span></div>
     </div></div>
   </section>
 
-  <!-- 9 · Cadeias -->
-  <section class="scene" data-dur="11.5" data-ch="03 · Causas">
+  <section class="scene" data-id="cadeias" data-ch="03 · Causas">
     <div class="inner"><div class="wrap">
-      <div class="kicker" data-t=".2" data-a="fade">Uma questão também de gestão</div>
-      <h2 class="h-l" data-t=".4" data-a="words">A exploração pode se esconder nas cadeias produtivas</h2>
-      <div class="chain" data-t="2" data-g="left" data-st=".35">
+      <div class="kicker" data-c="0" data-a="fade">Mascarenhas, Dias e Baptista (2015)</div>
+      <h2 class="h-l" data-c="0" data-a="words">A exploração pode se esconder nas cadeias produtivas</h2>
+      <div class="chain" data-c="1" data-tf=".1" data-g="left" data-st="fit" data-fit=".6">
         <div class="link">Empresa<small>contratante</small></div>
         <div class="chev">›</div>
         <div class="link d1">Fornecedor</div>
@@ -333,68 +357,90 @@ em{font-style:italic}
         <div class="chev">›</div>
         <div class="link worker">Trabalhador<small>invisível</small></div>
       </div>
-      <p class="foot" data-t="5.6" data-a="up" style="color:var(--text);font-size:38px">Quanto mais longa a cadeia, menos se enxergam as condições reais de trabalho.</p>
-      <p class="cite mt1" data-t="6.4" data-a="fade">Mascarenhas, Dias e Baptista (2015) · Viana (2006) · Santos et al. (2019)</p>
+      <p class="foot" data-c="1" data-tf=".75" data-a="up" style="color:var(--text);font-size:38px">Quanto mais longa a cadeia, menos se enxergam as condições reais de trabalho.</p>
+      <p class="lead mt2" data-c="2" data-a="up" style="font-size:38px"><span class="cite" style="font-size:26px">Viana (2006) ·</span> produção moderna <span class="amber">+</span> formas antigas de exploração</p>
     </div></div>
   </section>
 
-  <!-- 10 · Saúde pública -->
-  <section class="scene" data-dur="12" data-ch="04 · Impactos">
+  <section class="scene" data-id="saude" data-ch="04 · Impactos">
     <div class="inner"><div class="wrap">
-      <div class="kicker" data-t=".2" data-a="fade">Leão (2016)</div>
-      <h2 class="h-xl" data-t=".4" data-a="words">Um problema de saúde pública</h2>
+      <div class="kicker" data-c="0" data-a="fade">Leão (2016)</div>
+      <h2 class="h-xl" data-c="0" data-tf=".25" data-a="words">Um problema de saúde pública</h2>
       <div class="cols">
-        <div class="col"><h3 data-t="1.6" data-a="fade">NO CORPO</h3><ul data-t="2" data-g="left" data-st=".3"><li>Esforço físico intenso</li><li>Exposição ao sol</li><li>Acidentes e doenças</li><li>Alimentação inadequada</li></ul></div>
-        <div class="col mind"><h3 data-t="3.4" data-a="fade">NA MENTE</h3><ul data-t="3.8" data-g="left" data-st=".3"><li>Medo</li><li>Vergonha e culpa</li><li>Desânimo</li><li>Sensação de fracasso</li></ul></div>
+        <div class="col"><h3 data-c="1" data-a="fade">NO CORPO</h3><ul data-c="1" data-tf=".1" data-g="left" data-st="fit" data-fit=".8"><li>Esforço físico intenso</li><li>Exposição ao sol</li><li>Acidentes e doenças</li><li>Alimentação inadequada</li></ul></div>
+        <div class="col mind"><h3 data-c="2" data-a="fade">NA MENTE</h3><ul data-c="2" data-tf=".1" data-g="left" data-st="fit" data-fit=".75"><li>Medo</li><li>Vergonha e culpa</li><li>Desânimo</li><li>Sensação de fracasso</li></ul></div>
       </div>
     </div></div>
   </section>
 
-  <!-- 11 · Sofrimento -->
-  <section class="scene" data-dur="10" data-ch="04 · Impactos">
+  <section class="scene" data-id="sus" data-ch="04 · Impactos">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-c="0" data-a="fade">Vigilância em saúde do trabalhador</div>
+      <h2 class="h-xl" data-c="0" data-a="words">A saúde também é porta de entrada</h2>
+      <div class="flow">
+        <div class="step" data-c="1" data-a="up"><div class="n">1</div><h4>Acidente ou adoecimento</h4><p>O trabalhador chega ao serviço de saúde.</p></div>
+        <div class="arrow"><svg viewBox="0 0 64 40"><path data-c="1" data-tf=".55" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#eaa53f" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step" data-c="1" data-tf=".6" data-a="up"><div class="n">2</div><h4>O SUS identifica</h4><p>Sinais de exploração nas condições de trabalho.</p></div>
+        <div class="arrow"><svg viewBox="0 0 64 40"><path data-c="2" data-t="-.3" data-a="draw" d="M4 20 H56 M44 8 L58 20 L44 32" stroke="#38a596" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="step good" data-c="2" data-a="pop"><div class="n">3</div><h4>Rede de proteção</h4><p>Prevenção, vigilância e articulação entre setores.</p></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="sofrimento" data-ch="04 · Impactos">
     <div class="inner"><div class="center" style="align-items:flex-start;text-align:left">
-      <p class="quote" data-t=".3" data-a="words" data-st=".06"><span class="q">“</span>Com humilhação, ameaça e isolamento, o trabalho deixa de ser fonte de <span class="teal">reconhecimento</span> e vira fonte de <span class="amber">sofrimento</span>.</p>
-      <p class="cite mt2" data-t="3.4" data-a="fade">Psicodinâmica do Trabalho · Vieira, Marinho e Ghizoni (2018)</p>
-      <p class="lead mt2" data-t="5" data-a="up" style="max-width:1400px">O sofrimento <b class="amber">não é falha individual</b>: ele nasce da organização do trabalho e das relações de poder.</p>
+      <div class="kicker" data-c="0" data-a="fade">Psicodinâmica do Trabalho · Vieira, Marinho e Ghizoni (2018)</div>
+      <p class="lead muted" data-c="0" data-tf=".3" data-a="up" style="margin-bottom:50px">Servidão, sofrimento e dominação</p>
+      <p class="quote" data-c="1" data-a="words"><span class="q">“</span>Com humilhação, ameaça e isolamento, o trabalho deixa de ser fonte de <span class="teal">reconhecimento</span> e vira fonte de <span class="amber">sofrimento</span>.</p>
+      <p class="lead mt2" data-c="2" data-a="up" style="max-width:1400px">O sofrimento <b class="amber">não é falha individual</b>: ele nasce da organização do trabalho e das relações de poder.</p>
     </div></div>
   </section>
 
-  <!-- 12 · CASO REAL -->
-  <section class="scene light" data-dur="7" data-ch="05 · Caso real" data-sfx="hit">
+  <section class="scene" data-id="impactos" data-ch="04 · Impactos">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-c="0" data-a="fade">Discussão</div>
+      <h2 class="h-xl" data-c="0" data-a="words">Os impactos vão além do trabalhador</h2>
+      <div class="i3" data-cs="1 2 3" data-g="up">
+        <div><b>Trabalhador</b><p>Consequências físicas, psicológicas, econômicas, familiares e sociais.</p></div>
+        <div><b>Organizações</b><p>Violação de direitos e responsabilidade em toda a cadeia de contratação.</p></div>
+        <div><b>Sociedade</b><p>Expõe desigualdades e a dificuldade de garantir direitos fundamentais.</p></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="scene light" data-id="caso" data-ch="05 · Caso real" data-sfx="hit">
     <div class="inner"><div class="center">
-      <div class="stamp" data-t=".4" data-a="stamp">Caso real</div>
-      <div class="src" data-t="1.6" data-a="up">g1 Ceará · julho de 2026</div>
-      <h2 class="h-serif mt1" style="font-size:80px" data-t="2.4" data-a="words"><em>Trabalho doméstico e dependência social</em></h2>
+      <div class="stamp" data-c="0" data-t="-.2" data-a="stamp">Caso real</div>
+      <div class="src" data-c="1" data-a="up">g1 Ceará · julho de 2026</div>
+      <h2 class="h-serif mt1" style="font-size:80px" data-c="1" data-tf=".5" data-a="words"><em>Trabalho doméstico e dependência social</em></h2>
     </div></div>
   </section>
 
-  <!-- 13 · Linha do tempo da vida -->
-  <section class="scene light" data-dur="13" data-ch="05 · Caso real">
+  <section class="scene light" data-id="vida" data-ch="05 · Caso real">
     <div class="inner">
       <div class="bigc">
-        <div class="lbl" data-t=".3" data-a="up">Uma mulher passou</div>
-        <div class="num" data-t="2.4" data-d="5.4" data-a="count" data-to="55" data-ease="inout">0</div>
-        <div class="lbl" data-t="2.8" data-a="up"><b>anos</b> vinculada à mesma família.</div>
+        <div class="lbl" data-c="0" data-a="up">Uma mulher passou</div>
+        <div class="num" data-c="2" data-d="seg" data-df=".9" data-a="count" data-to="55" data-ease="inout">0</div>
+        <div class="lbl" data-c="2" data-t=".4" data-a="up"><b>anos</b> vinculada à mesma família.</div>
       </div>
       <div class="tlbox">
-        <div class="track"><div class="fill" data-t="2.4" data-d="5.4" data-a="grow" data-ease="inout"></div></div>
-        <div class="dot" style="left:-6px" data-t="1.2" data-a="pop"></div>
-        <div class="dot" style="right:-6px" data-t="7.8" data-a="pop"></div>
-        <div class="age" style="left:0" data-t="1.3" data-a="up"><b>7 anos</b>Ainda criança, passa a viver e trabalhar com a família.</div>
-        <div class="age r" data-t="8" data-a="up"><b>62 anos</b>É resgatada.</div>
+        <div class="track"><div class="fill" data-c="2" data-d="seg" data-df=".9" data-a="grow" data-ease="inout"></div></div>
+        <div class="dot" style="left:-6px" data-c="1" data-a="pop"></div>
+        <div class="dot" style="right:-6px" data-c="3" data-a="pop"></div>
+        <div class="age" style="left:0" data-c="1" data-tf=".5" data-a="up"><b>7 anos</b>Ainda criança, passa a viver e trabalhar com a família.</div>
+        <div class="age r" data-c="3" data-tf=".1" data-a="up"><b>62 anos</b>É resgatada.</div>
       </div>
       <div class="center" style="top:auto;bottom:110px;height:auto">
-        <p class="lead" data-t="9.4" data-a="up" style="color:#1d1a17">Caso investigado como <b style="color:var(--rust)">trabalho análogo à escravidão</b>.</p>
+        <p class="lead" data-c="3" data-tf=".55" data-a="up" style="color:#1d1a17">Caso investigado como <b style="color:var(--rust)">trabalho análogo à escravidão</b>.</p>
       </div>
     </div>
   </section>
 
-  <!-- 14 · O que a fiscalização encontrou -->
-  <section class="scene light" data-dur="11" data-ch="05 · Caso real">
+  <section class="scene light" data-id="fiscal" data-ch="05 · Caso real">
     <div class="inner"><div class="wrap">
-      <div class="kicker" data-t=".2" data-a="fade">Segundo a reportagem</div>
-      <h2 class="h-l" data-t=".4" data-a="words" style="color:#1d1a17">O que a fiscalização identificou</h2>
-      <ul class="found" data-t="1.7" data-g="left" data-st=".55">
+      <div class="kicker" data-c="0" data-a="fade">Segundo a reportagem</div>
+      <h2 class="h-l" data-c="0" data-a="words" style="color:#1d1a17">O que a fiscalização identificou</h2>
+      <ul class="found" data-cs="1 2 3 4 5" data-g="left">
         <li><i>✕</i>Nenhuma remuneração</li>
         <li><i>✕</i>Dependência econômica e social</li>
         <li><i>✕</i>Dificuldade de acesso à educação</li>
@@ -404,51 +450,58 @@ em{font-style:italic}
     </div></div>
   </section>
 
-  <!-- 15 · Outro lado -->
-  <section class="scene light" data-dur="9" data-ch="05 · Caso real">
+  <section class="scene light" data-id="outro" data-ch="05 · Caso real">
     <div class="inner"><div class="wrap">
-      <div class="kicker" data-t=".2" data-a="fade">O outro lado</div>
-      <div class="side" data-t=".5" data-a="left">
-        <p data-t=".7" data-a="words" data-st=".05">A família nega as acusações. Diz que havia <em>vínculos de cuidado e afeto</em> e que as obrigações trabalhistas eram cumpridas.</p>
+      <div class="kicker" data-c="0" data-a="fade">O outro lado</div>
+      <div class="side" data-c="0" data-a="left">
+        <p data-c="0" data-a="words">A família nega as acusações. Diz que havia <em>vínculos de cuidado e afeto</em> e que as obrigações trabalhistas eram cumpridas.</p>
       </div>
-      <div><span class="note" data-t="4.2" data-a="up">⚖&nbsp; São alegações da defesa. As conclusões sobre o caso cabem aos órgãos de fiscalização.</span></div>
+      <div><span class="note" data-c="1" data-a="up">⚖&nbsp; São alegações da defesa. As conclusões sobre o caso cabem aos órgãos de fiscalização.</span></div>
     </div></div>
   </section>
 
-  <!-- 16 · Depois do resgate -->
-  <section class="scene light" data-dur="12.5" data-ch="05 · Caso real">
+  <section class="scene light" data-id="pergunta" data-ch="05 · Caso real">
+    <div class="inner"><div class="center">
+      <div class="kicker" data-c="0" data-a="fade">Para a Psicologia</div>
+      <p class="lead" data-c="0" data-tf=".1" data-a="up" style="color:#5d5246">Independentemente das versões, fica a pergunta:</p>
+      <h2 class="h-serif mt2" style="font-size:108px;color:#1d1a17">
+        <span class="line"><span data-c="1" data-a="rise">Como construir autonomia</span></span>
+        <span class="line" style="color:var(--rust)"><span data-c="1" data-tf=".45" data-a="rise"><em>depois de décadas de dependência?</em></span></span>
+      </h2>
+    </div></div>
+  </section>
+
+  <section class="scene light" data-id="resgate" data-ch="05 · Caso real">
     <div class="inner"><div class="wrap">
-      <h2 class="h-xl" data-t=".3" data-a="words" style="color:#1d1a17">E depois do resgate?</h2>
-      <p class="lead mt1" data-t="1.4" data-a="up" style="color:#5d5246">Sair da exploração <b style="color:var(--rust)">não encerra</b> a necessidade de cuidado.</p>
-      <div class="stairs" data-t="3" data-g="growy" data-st=".35">
+      <h2 class="h-xl" data-t=".2" data-a="words" style="color:#1d1a17">E depois do resgate?</h2>
+      <p class="lead mt1" data-c="0" data-a="up" style="color:#5d5246">Sair da exploração <b style="color:var(--rust)">não encerra</b> a necessidade de cuidado.</p>
+      <div class="stairs" data-c="1" data-tf=".25" data-g="growy" data-st="fit" data-fit=".65">
         <div>Acompanha&shy;mento psicossocial</div><div>Acesso à educação</div><div>Fortalecer vínculos</div><div>Inserção social</div><div>Garantia de direitos</div>
       </div>
-      <p class="foot" data-t="6.4" data-a="up" style="color:#1d1a17;font:400 46px/1.25 'Fraunces',serif;margin-top:40px"><em>Reconstruir a autonomia</em> depois de uma vida inteira de dependência.</p>
+      <p class="foot" data-c="2" data-a="up" style="color:#1d1a17;font:400 44px/1.25 'Fraunces',serif;margin-top:40px"><em>A Psicologia na rede de proteção</em> — interdisciplinar e com ética.</p>
     </div></div>
   </section>
 
-  <!-- 17 · Políticas públicas -->
-  <section class="scene" data-dur="13" data-ch="06 · Enfrentamento">
+  <section class="scene" data-id="politicas" data-ch="06 · Enfrentamento">
     <div class="inner"><div class="wrap" style="top:130px">
-      <div class="kicker" data-t=".2" data-a="fade">Política pública · Galiza et al. (2018)</div>
-      <h2 class="h-l" data-t=".4" data-a="words">Como o Brasil construiu o combate</h2>
+      <div class="kicker" data-c="0" data-a="fade">Política pública · Galiza et al. (2018)</div>
+      <h2 class="h-l" data-c="0" data-a="words">Como o Brasil construiu o combate</h2>
       <div class="ptl">
-        <svg viewBox="0 0 1600 20"><line data-t="1.4" data-d="3.2" data-a="draw" x1="0" y1="10" x2="1600" y2="10" stroke="#5a524a" stroke-width="3"/></svg>
-        <div class="pev" style="left:0" data-t="1.6" data-a="up"><div class="y">1957</div><div class="p"></div><div class="d">Brasil ratifica a Convenção nº 29 da OIT</div></div>
-        <div class="pev" style="left:410px" data-t="2.4" data-a="up"><div class="y">1965</div><div class="p"></div><div class="d">Convenção nº 105 da OIT</div></div>
-        <div class="pev" style="left:820px" data-t="3.2" data-a="up"><div class="y">1995</div><div class="p"></div><div class="d">Grupo Especial de Fiscalização Móvel</div></div>
-        <div class="pev" style="left:1230px;width:400px" data-t="4" data-a="up"><div class="y">2003</div><div class="p"></div><div class="d">Plano Nacional, CONATRAE e Lei 10.803 (novo art. 149)</div></div>
+        <svg viewBox="0 0 1600 20"><line data-c="1" data-d="6" data-a="draw" x1="0" y1="10" x2="1600" y2="10" stroke="#5a524a" stroke-width="3"/></svg>
+        <div class="pev" style="left:0" data-c="1" data-tf=".3" data-a="up"><div class="y">1957</div><div class="p"></div><div class="d">Brasil ratifica a Convenção nº 29 da OIT</div></div>
+        <div class="pev" style="left:410px" data-c="1" data-tf=".5" data-a="up"><div class="y">1965</div><div class="p"></div><div class="d">Convenção nº 105 da OIT</div></div>
+        <div class="pev" style="left:820px" data-c="2" data-a="up"><div class="y">1995</div><div class="p"></div><div class="d">Grupo Especial de Fiscalização Móvel</div></div>
+        <div class="pev" style="left:1230px;width:400px" data-c="3" data-a="up"><div class="y">2003</div><div class="p"></div><div class="d">Plano Nacional, CONATRAE e Lei 10.803 (novo art. 149)</div></div>
       </div>
-      <div class="callout" data-t="6.6" data-a="up" style="margin-top:-60px"><span style="font-size:60px">⚠</span><span><b>Menos resgates ≠ menos casos.</b> Os números também dependem da capacidade de fiscalizar.</span></div>
+      <div class="callout" data-c="4" data-a="up" style="margin-top:-60px"><span style="font-size:60px">⚠</span><span><b>Menos resgates ≠ menos casos.</b> Os números também dependem da capacidade de fiscalizar.</span></div>
     </div></div>
   </section>
 
-  <!-- 18 · Papel da POT -->
-  <section class="scene" data-dur="14" data-ch="06 · Enfrentamento">
+  <section class="scene" data-id="pot" data-ch="06 · Enfrentamento">
     <div class="inner"><div class="wrap">
-      <div class="kicker" data-t=".2" data-a="fade" style="color:var(--teal)">Psicologia Organizacional e do Trabalho</div>
-      <h2 class="h-xl" data-t=".4" data-a="words">Onde a POT pode atuar</h2>
-      <div class="pot" data-t="1.8" data-g="up" data-st=".7">
+      <div class="kicker" data-c="0" data-a="fade" style="color:var(--teal)">Psicologia Organizacional e do Trabalho</div>
+      <h2 class="h-xl" data-c="0" data-a="words">Onde a POT pode atuar</h2>
+      <div class="pot" data-cs="1 2 3 4" data-g="up">
         <div class="pc"><svg viewBox="0 0 48 48"><path d="M24 4 L40 10 V24 C40 34 32 41 24 44 C16 41 8 34 8 24 V10 Z"/><path d="M17 24 L22 29 L31 19"/></svg><h3>Prevenir</h3><p>Riscos psicossociais, ações educativas e canais seguros de denúncia.</p></div>
         <div class="pc"><svg viewBox="0 0 48 48"><path d="M24 42 C10 32 4 25 4 17 C4 11 9 6 15 6 C19 6 22 8 24 12 C26 8 29 6 33 6 C39 6 44 11 44 17 C44 25 38 32 24 42 Z"/></svg><h3>Acolher</h3><p>Escuta qualificada em equipes multiprofissionais de saúde.</p></div>
         <div class="pc"><svg viewBox="0 0 48 48"><path d="M4 42 H14 V32 H24 V22 H34 V12 H44"/><path d="M36 4 L44 12 L36 20"/></svg><h3>Reconstruir</h3><p>Autonomia, autoestima, projetos de vida e reinserção.</p></div>
@@ -457,75 +510,99 @@ em{font-style:italic}
     </div></div>
   </section>
 
-  <!-- 19 · Ética -->
-  <section class="scene" data-dur="10.5" data-ch="06 · Enfrentamento">
+  <section class="scene" data-id="etica" data-ch="06 · Enfrentamento">
     <div class="inner"><div class="wrap">
-      <div class="kicker" data-t=".2" data-a="fade">Desafios éticos</div>
-      <div class="eth" data-t=".6" data-g="left" data-st="1.4">
+      <div class="kicker" data-c="0" data-a="fade">Desafios éticos</div>
+      <div class="eth" data-cs="1 2 3" data-g="left">
         <div><span class="n">01</span><span class="t">Produtividade <span class="amber">nunca</span> acima da dignidade.</span></div>
         <div><span class="n">02</span><span class="t">Não culpar a vítima.</span></div>
-        <div><span class="n">03</span><span class="t">Não adaptar a pessoa à violência.</span></div>
+        <div><span class="n">03</span><span class="t">Não adaptar a pessoa ao abuso.</span></div>
       </div>
-      <p class="foot" data-t="5.4" data-a="up">Pobreza e baixa escolaridade não explicam nem justificam a exploração.</p>
+      <p class="foot" data-c="2" data-tf=".5" data-a="up">Pobreza e baixa escolaridade não explicam nem justificam a exploração.</p>
     </div></div>
   </section>
 
-  <!-- 20 · Rede -->
-  <section class="scene" data-dur="11" data-ch="06 · Enfrentamento">
+  <section class="scene" data-id="estrategias" data-ch="06 · Enfrentamento">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-c="0" data-a="fade">Prevenção e intervenção</div>
+      <h2 class="h-xl" data-c="0" data-a="words">Várias frentes ao mesmo tempo</h2>
+      <div class="chips" data-c="1" data-g="pop" data-st="fit" data-fit=".8" style="margin-bottom:10px">
+        <span class="chip a">fortalecer a fiscalização</span><span class="chip a">fiscalizar cadeias produtivas</span><span class="chip a">prevenir o aliciamento</span><span class="chip a">educar sobre direitos</span><span class="chip a">canais seguros de denúncia</span>
+      </div>
+      <div class="chips" data-c="2" data-g="pop" data-st="fit" data-fit=".8">
+        <span class="chip t">proteção social</span><span class="chip t">saúde física e mental</span><span class="chip t">responsabilização</span><span class="chip t">reinserção social e profissional</span><span class="chip t">análise da terceirização</span>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="rede" data-ch="06 · Enfrentamento">
     <div class="inner">
       <div style="position:absolute;left:160px;top:120px">
-        <h2 class="h-l" data-t=".3" data-a="words">Enfrentar exige <span class="amber">rede</span></h2>
+        <h2 class="h-l" data-c="0" data-a="words">Enfrentar exige <span class="amber">rede</span></h2>
       </div>
       <div class="net">
         <svg viewBox="0 0 1920 1080" fill="none" stroke="rgba(234,165,63,.45)" stroke-width="3">
-          <line data-t="1.4" data-a="draw" x1="960" y1="600" x2="960" y2="320"/>
-          <line data-t="1.6" data-a="draw" x1="960" y1="600" x2="1420" y2="400"/>
-          <line data-t="1.8" data-a="draw" x1="960" y1="600" x2="1590" y2="600"/>
-          <line data-t="2.0" data-a="draw" x1="960" y1="600" x2="1420" y2="800"/>
-          <line data-t="2.2" data-a="draw" x1="960" y1="600" x2="960" y2="890"/>
-          <line data-t="2.4" data-a="draw" x1="960" y1="600" x2="500" y2="800"/>
-          <line data-t="2.6" data-a="draw" x1="960" y1="600" x2="330" y2="600"/>
-          <line data-t="2.8" data-a="draw" x1="960" y1="600" x2="500" y2="400"/>
+          <line data-c="1" data-tf="0" data-a="draw" x1="960" y1="600" x2="960" y2="320"/>
+          <line data-c="1" data-tf=".1" data-a="draw" x1="960" y1="600" x2="1420" y2="400"/>
+          <line data-c="1" data-tf=".2" data-a="draw" x1="960" y1="600" x2="1590" y2="600"/>
+          <line data-c="1" data-tf=".3" data-a="draw" x1="960" y1="600" x2="1420" y2="800"/>
+          <line data-c="1" data-tf=".4" data-a="draw" x1="960" y1="600" x2="960" y2="890"/>
+          <line data-c="1" data-tf=".5" data-a="draw" x1="960" y1="600" x2="500" y2="800"/>
+          <line data-c="1" data-tf=".62" data-a="draw" x1="960" y1="600" x2="330" y2="600"/>
+          <line data-c="1" data-tf=".74" data-a="draw" x1="960" y1="600" x2="500" y2="400"/>
         </svg>
-        <div class="node hub" style="left:960px;top:600px" data-t=".9" data-a="pop">Dignidade</div>
-        <div class="node" style="left:960px;top:320px" data-t="1.7" data-a="pop">Fiscalização</div>
-        <div class="node" style="left:1420px;top:400px" data-t="1.9" data-a="pop">Políticas públicas</div>
-        <div class="node" style="left:1590px;top:600px" data-t="2.1" data-a="pop">Saúde</div>
-        <div class="node" style="left:1420px;top:800px" data-t="2.3" data-a="pop">Assistência social</div>
-        <div class="node" style="left:960px;top:890px" data-t="2.5" data-a="pop">Justiça</div>
-        <div class="node" style="left:500px;top:800px" data-t="2.7" data-a="pop">Organizações</div>
-        <div class="node" style="left:330px;top:600px" data-t="2.9" data-a="pop">Psicologia</div>
-        <div class="node" style="left:500px;top:400px" data-t="3.1" data-a="pop">Direitos humanos</div>
+        <div class="node hub" style="left:960px;top:600px" data-c="0" data-tf=".5" data-a="pop">Dignidade</div>
+        <div class="node" style="left:960px;top:320px" data-c="1" data-tf=".04" data-a="pop">Fiscalização</div>
+        <div class="node" style="left:1420px;top:400px" data-c="1" data-tf=".14" data-a="pop">Políticas públicas</div>
+        <div class="node" style="left:1590px;top:600px" data-c="1" data-tf=".24" data-a="pop">Saúde</div>
+        <div class="node" style="left:1420px;top:800px" data-c="1" data-tf=".34" data-a="pop">Assistência social</div>
+        <div class="node" style="left:960px;top:890px" data-c="1" data-tf=".44" data-a="pop">Justiça</div>
+        <div class="node" style="left:500px;top:800px" data-c="1" data-tf=".54" data-a="pop">Organizações</div>
+        <div class="node" style="left:330px;top:600px" data-c="1" data-tf=".66" data-a="pop">Psicologia</div>
+        <div class="node" style="left:500px;top:400px" data-c="1" data-tf=".78" data-a="pop">Direitos humanos</div>
       </div>
     </div>
   </section>
 
-  <!-- 21 · Conclusão -->
-  <section class="scene" data-dur="9" data-ch="07 · Conclusão">
-    <div class="inner"><div class="center">
-      <h2 class="h-serif" style="font-size:112px">
-        <span class="line"><span data-t=".4" data-a="rise">O trabalho deve ser fonte de</span></span>
-        <span class="line teal"><span data-t=".9" data-a="rise"><em>dignidade</em>,</span></span>
-        <span class="line"><span data-t="1.9" data-a="rise">nunca de <span class="rust"><em>violação</em></span>.</span></span>
-      </h2>
-      <p class="lead mt3" data-t="4" data-a="up" style="font-size:36px"><span class="muted">Viu algo assim? Denuncie:</span> <b class="amber">Disque 100</b> <span class="muted">·</span> <b class="amber">Sistema Ipê</b> <span class="muted">(ipe.sit.trabalho.gov.br)</span></p>
+  <section class="scene" data-id="consideracoes" data-ch="07 · Conclusão">
+    <div class="inner"><div class="wrap">
+      <div class="kicker" data-c="0" data-a="fade">Considerações finais</div>
+      <div class="cons" data-cs="0 1 2" data-g="left">
+        <div><span class="n">01</span><span class="t">Realidade complexa, <span class="amber">sem causa única</span>.</span></div>
+        <div><span class="n">02</span><span class="t">Vai além do jurídico: atinge saúde, identidade e autonomia.</span></div>
+        <div><span class="n">03</span><span class="t">No campo e na cidade, em cadeias terceirizadas.</span></div>
+      </div>
+      <p class="lead muted mt2" data-c="3" data-a="up" style="font-size:34px">Pesquisas futuras:</p>
+      <div class="chips sm" data-c="3" data-tf=".3" data-g="pop" data-st="fit" data-fit=".6" style="margin-top:20px">
+        <span class="chip t">impactos psicológicos</span><span class="chip t">reinserção dos resgatados</span><span class="chip t">formas urbanas</span><span class="chip t">reincidência</span>
+      </div>
     </div></div>
   </section>
 
-  <!-- 22 · Créditos -->
-  <section class="scene" data-dur="13" data-hud="0" data-ch="">
+  <section class="scene" data-id="conclusao" data-ch="07 · Conclusão">
+    <div class="inner"><div class="center">
+      <h2 class="h-serif" style="font-size:112px">
+        <span class="line"><span data-c="0" data-a="rise">O trabalho deve ser fonte de</span></span>
+        <span class="line teal"><span data-c="0" data-tf=".6" data-a="rise"><em>dignidade</em>,</span></span>
+        <span class="line"><span data-c="1" data-a="rise">nunca de <span class="rust"><em>violação</em></span>.</span></span>
+      </h2>
+      <p class="lead mt3" data-c="2" data-a="up" style="font-size:36px"><span class="muted">Viu algo assim? Denuncie:</span> <b class="amber">Disque 100</b> <span class="muted">·</span> <b class="amber">Sistema Ipê</b> <span class="muted">(ipe.sit.trabalho.gov.br)</span></p>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="creditos" data-hud="0" data-ch="">
     <div class="inner">
       <div class="cred">
         <div>
-          <div class="lbl" data-t=".3" data-a="fade">Trabalho · AV1 · 2026</div>
-          <h2 data-t=".5" data-a="words" data-st=".07">Psicologia Organizacional e do Trabalho: <em class="amber">desafios contemporâneos</em></h2>
-          <p class="inst" data-t="2" data-a="up">Centro Universitário Serra dos Órgãos — UNIFESO<br>Curso de Graduação em Psicologia<br>Teresópolis, RJ · 2026</p>
+          <div class="lbl" data-t=".2" data-a="fade">Trabalho · AV1 · 2026</div>
+          <h2 data-t=".4" data-a="words" data-st=".07">Psicologia Organizacional e do Trabalho: <em class="amber">desafios contemporâneos</em></h2>
+          <p class="inst" data-t="1.8" data-a="up">Centro Universitário Serra dos Órgãos — UNIFESO<br>Curso de Graduação em Psicologia<br>Teresópolis, RJ · 2026</p>
         </div>
         <div>
-          <div class="lbl" data-t="1.4" data-a="fade">Professor</div>
-          <div class="prof" data-t="1.6" data-a="up">Felipe Lemos Josué</div>
-          <div class="lbl" data-t="2.4" data-a="fade">Autoras</div>
-          <ul data-t="2.7" data-g="left" data-st=".3">
+          <div class="lbl" data-c="0" data-a="fade">Professor</div>
+          <div class="prof" data-c="0" data-tf=".3" data-a="up">Felipe Lemos Josué</div>
+          <div class="lbl" data-c="1" data-a="fade">Autoras</div>
+          <ul data-c="1" data-tf=".08" data-g="left" data-st="fit" data-fit=".85">
             <li>Ana Caroline Lopes de Lima</li>
             <li>Giseli da Silva de Carvalho</li>
             <li>Isabel Lafetá da Fonseca</li>
@@ -534,7 +611,7 @@ em{font-style:italic}
           </ul>
         </div>
       </div>
-      <p class="refs" data-t="5" data-a="fade">Referências: Figueira (2000) · Viana (2006) · Miraglia (2008) · Leão (2016) · Arbex, Galiza e Oliveira (2018). Caso: g1 Ceará, jul. 2026.</p>
+      <p class="refs" data-c="1" data-tf=".9" data-a="fade">Referências: Figueira (2000) · Viana (2006) · Miraglia (2008) · Leão (2016) · Arbex, Galiza e Oliveira (2018). Caso: g1 Ceará, jul. 2026. Narração: voz sintética.</p>
     </div>
   </section>
 
@@ -548,6 +625,7 @@ em{font-style:italic}
 const stage = document.getElementById('stage');
 const scenes = [...document.querySelectorAll('.scene')];
 const hud = document.getElementById('hud'), hudCh = hud.querySelector('.ch'), hudBar = hud.querySelector('.bar b');
+const CUES = window.__CUES || {};
 const clamp = (x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const E = {
   out: p=>1-Math.pow(1-p,3),
@@ -555,7 +633,6 @@ const E = {
   back: p=>{const c1=1.7,c3=c1+1;return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2)},
 };
 
-// split text into word spans (keeps nested markup)
 function splitWords(el){
   const out=[];
   const walk=n=>{
@@ -577,38 +654,54 @@ function splitWords(el){
   return out;
 }
 
-// build timeline
+// tempo de entrada de um elemento: cue (data-c) + deslocamento (data-t) + fração da fala (data-tf)
+function timing(s, el, cueIdx){
+  const c = cueIdx!==undefined ? cueIdx : (el.dataset.c!==undefined ? +el.dataset.c : null);
+  let t=0, L=2;
+  if(c!==null){ t=s._c[c]??0; L=s._l[c]??2; }
+  t += +(el.dataset.t||0);
+  if(el.dataset.tf) t += L*(+el.dataset.tf);
+  return {t,L};
+}
+
 let acc=0;
-scenes.forEach((s,i)=>{
-  s._start=acc; s._dur=+s.dataset.dur; acc+=s._dur; s._items=[];
+scenes.forEach(s=>{
+  const cue = CUES[s.dataset.id] || {dur:8,c:[.6],len:[3]};
+  s._start=acc; s._dur=cue.dur; s._c=cue.c; s._l=cue.len; acc+=s._dur; s._items=[];
   s._inner=s.querySelector('.inner');
   const add=(el,t,a,d)=>s._items.push({el,t,a,d,ease:el.dataset.ease});
+  const durOf=(el,L,a)=>el.dataset.d==='seg' ? L*(+(el.dataset.df||1)) : +(el.dataset.d||(a==='draw'?.6:.8));
   s.querySelectorAll('[data-g]').forEach(g=>{
-    const t=+g.dataset.t, st=+(g.dataset.st||.2), a=g.dataset.g;
-    [...g.children].forEach((c,k)=>add(c,t+k*st,a,+(g.dataset.d||.8)));
+    const kids=[...g.children], a=g.dataset.g, d=+(g.dataset.d||.8);
+    if(g.dataset.cs){
+      const cs=g.dataset.cs.split(/\s+/).map(Number);
+      kids.forEach((k,i)=>add(k, timing(s,g,cs[i]).t, a, d));
+    } else {
+      const {t,L}=timing(s,g);
+      const st = g.dataset.st==='fit' ? L*(+(g.dataset.fit||.8))/kids.length : +(g.dataset.st||.2);
+      kids.forEach((k,i)=>add(k,t+i*st,a,d));
+    }
   });
   s.querySelectorAll('[data-a]').forEach(el=>{
-    const t=+el.dataset.t, a=el.dataset.a, d=+(el.dataset.d||(a==='draw'?.6:.8));
+    const a=el.dataset.a, {t,L}=timing(s,el);
     if(a==='words'){
-      const st=+(el.dataset.st||.07);
-      splitWords(el).forEach((w,k)=>{
-        add(w,t+k*st,'wordup',.7);
-      });
-    } else add(el,t,a,d);
+      const ws=splitWords(el);
+      const st = el.dataset.st ? +el.dataset.st : (el.dataset.c!==undefined ? Math.min(.16, L*.7/ws.length) : .07);
+      ws.forEach((w,k)=>add(w,t+k*st,'wordup',.7));
+    } else add(el,t,a,durOf(el,L,a));
   });
   s._items.forEach(it=>{
-    if(it.a==='draw'){ const L=it.el.getTotalLength(); it.len=L; it.el.style.strokeDasharray=L; }
+    if(it.a==='draw'){ const Ln=it.el.getTotalLength(); it.len=Ln; it.el.style.strokeDasharray=Ln; }
   });
 });
 const TOTAL=acc;
-window.__TIMELINE={total:TOTAL,scenes:scenes.map(s=>({start:s._start,dur:s._dur,sfx:s.dataset.sfx||'',light:s.classList.contains('light')}))};
+window.__TIMELINE={total:TOTAL,scenes:scenes.map(s=>({id:s.dataset.id,start:s._start,dur:s._dur,sfx:s.dataset.sfx||'',light:s.classList.contains('light')}))};
 
-// grain
+// grão
 const g=document.getElementById('grain'), gx=g.getContext('2d'), id=gx.createImageData(256,256);
 let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
 for(let i=0;i<id.data.length;i+=4){const v=rnd()*255;id.data[i]=id.data[i+1]=id.data[i+2]=v;id.data[i+3]=255}
 gx.putImageData(id,0,0);
-g.style.width='2048px';g.style.height='1208px';g.style.imageRendering='pixelated';
 const grainURL=g.toDataURL(); g.remove();
 const grain=document.createElement('div');grain.id='grain';grain.style.backgroundImage=`url(${grainURL})`;grain.style.backgroundSize='256px 256px';stage.appendChild(grain);
 
@@ -649,8 +742,7 @@ function render(t){
     s._items.forEach(it=>applyItem(it,lt));
   });
   if(cur){
-    const showHud=cur.dataset.hud!=='0';
-    hud.style.opacity=showHud?1:0;
+    hud.style.opacity=cur.dataset.hud!=='0'?1:0;
     hud.classList.toggle('light',cur.classList.contains('light'));
     vig.style.opacity=cur.classList.contains('light')?.35:1;
     hudCh.textContent=cur.dataset.ch||'';
@@ -662,13 +754,15 @@ function render(t){
 }
 window.__render=render;
 
-// preview mode: fit to window and play in real time (click = pause, ?t=SECONDS to start)
+// pré-visualização no navegador: toca em tempo real com a narração (clique = play/pausa; ?t=SEGUNDOS)
 function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(${(innerWidth-1920*k)/2}px,${(innerHeight-1080*k)/2}px) scale(${k})`}
 if(!window.__CAPTURE){
   fit(); addEventListener('resize',fit);
-  const q=new URLSearchParams(location.search); let t0=performance.now()/1000-(+q.get('t')||0), paused=false, pt=0;
-  addEventListener('click',()=>{paused=!paused; if(!paused) t0=performance.now()/1000-pt;});
-  const loop=()=>{ if(!paused){pt=(performance.now()/1000-t0)%TOTAL;} render(pt); requestAnimationFrame(loop);}; loop();
+  const q=new URLSearchParams(location.search);
+  const audio=new Audio('trabalho-escravo-contemporaneo.m4a'); audio.currentTime=+q.get('t')||0;
+  let playing=false;
+  addEventListener('click',()=>{playing=!playing; playing?audio.play().catch(()=>{}):audio.pause();});
+  const loop=()=>{ render(audio.currentTime||+q.get('t')||0); requestAnimationFrame(loop);}; loop();
 } else render(0);
 })();
 </script>

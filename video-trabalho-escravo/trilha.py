@@ -113,7 +113,44 @@ env *= np.clip((TOTAL + 0.5 - tt) / 5.0, 0, 1)
 L *= env; R *= env
 peak = max(np.abs(L).max(), np.abs(R).max())
 L /= peak / 0.89; R /= peak / 0.89
+
+# ---- narração + ducking (a música abaixa enquanto a voz fala) ----
+nar_path = os.path.join(HERE, 'out', 'narracao.wav')
+if os.path.exists(nar_path):
+    with wave.open(nar_path) as w:
+        vsr = w.getframerate(); raw = w.readframes(w.getnframes()); sw = w.getsampwidth()
+    v = np.frombuffer(raw, dtype=np.int16).astype(np.float64) / 32768 if sw == 2 else None
+    if v is None:  # soundfile grava PCM_16 por padrão; fallback
+        raise SystemExit('narracao.wav deve ser PCM 16 bits')
+    # reamostragem por FFT (24 kHz -> 44,1 kHz)
+    m = int(round(len(v) * SR / vsr))
+    V = np.fft.rfft(v); Vn = np.zeros(m // 2 + 1, dtype=complex); k = min(len(V), len(Vn)); Vn[:k] = V[:k]
+    v = np.fft.irfft(Vn, m) * (m / len(v))
+    voice = np.zeros(N); voice[:min(N, len(v))] = v[:N]
+    # envelope da voz -> ganho da música
+    def movavg(x, w):  # média móvel centrada (O(N), via soma acumulada)
+        c = np.concatenate([[0], np.cumsum(x)]); h = w // 2
+        i = np.arange(len(x)); a = np.clip(i - h, 0, len(x)); b = np.clip(i + h + 1, 0, len(x))
+        return (c[b] - c[a]) / (b - a)
+    def trailing(x, w):  # média móvel olhando para trás (release)
+        c = np.concatenate([[0], np.cumsum(x)]); i = np.arange(len(x)); a = np.clip(i + 1 - w, 0, None)
+        return (c[i + 1] - c[a]) / w
+    win = int(0.08 * SR)
+    e = np.sqrt(movavg(voice ** 2, win))
+    speaking = (e > 0.02).astype(float)
+    att, rel = int(0.12 * SR), int(0.7 * SR)
+    sm = trailing(speaking, rel)                      # solta devagar
+    sm = np.maximum(sm, movavg(speaking, att))
+    sm = np.clip(sm * 1.5, 0, 1)
+    duck = 1 - 0.55 * sm
+    music_gain = 0.32
+    L = L * music_gain * duck + voice * 0.92
+    R = R * music_gain * duck + voice * 0.92
+    peak = max(np.abs(L).max(), np.abs(R).max())
+    if peak > 0.98: L /= peak / 0.98; R /= peak / 0.98
+
+out_name = 'mix.wav' if os.path.exists(nar_path) else 'trilha.wav'
 stereo = (np.stack([L, R], 1) * 32767).astype(np.int16)
-with wave.open(os.path.join(HERE, 'out', 'trilha.wav'), 'wb') as w:
+with wave.open(os.path.join(HERE, 'out', out_name), 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes(stereo.tobytes())
-print('ok', TOTAL)
+print('ok', out_name, TOTAL)

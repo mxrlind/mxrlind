@@ -24,17 +24,20 @@ else if (mode === 'stills') {
     await page.screenshot({ path: path.join(dir, `t${String(t).padStart(6, '0')}.png`) });
   }
 } else if (mode === 'video') {
+  // node render.mjs video [PARTE] [TOTAL_PARTES]  -> out/part_K.mp4
+  const part = +(process.argv[3] || 0), parts = +(process.argv[4] || 1);
   fs.mkdirSync(path.join(here, 'out'), { recursive: true });
   fs.writeFileSync(path.join(here, 'out', 'timeline.json'), JSON.stringify(tl));
-  const n = Math.round(tl.total * FPS);
+  const N = Math.round(tl.total * FPS);
+  const a = Math.floor(N * part / parts), b = Math.floor(N * (part + 1) / parts), n = b - a;
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
-    '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', path.join(here, 'out', 'video_noaudio.mp4')], { stdio: ['pipe', 'inherit', 'inherit'] });
+    '-c:v', 'libx264', '-preset', 'slow', '-crf', '25', '-maxrate', '4M', '-bufsize', '8M', '-g', '60', '-pix_fmt', 'yuv420p', path.join(here, 'out', `part_${part}.mp4`)], { stdio: ['pipe', 'inherit', 'inherit'] });
   const t0 = Date.now();
   for (let i = 0; i < n; i++) {
-    await page.evaluate(t => window.__render(t), i / FPS);
+    await page.evaluate(t => window.__render(t), (a + i) / FPS);
     const buf = await page.screenshot({ type: 'jpeg', quality: 94 });
     if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
-    if (i % 300 === 0) console.log(`frame ${i}/${n}  ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+    if (i % 300 === 0) console.log(`[${part}] frame ${i}/${n}  ${((Date.now() - t0) / 1000).toFixed(0)}s`);
   }
   ff.stdin.end(); await new Promise(r => ff.on('close', r));
   console.log('done', n, 'frames');
