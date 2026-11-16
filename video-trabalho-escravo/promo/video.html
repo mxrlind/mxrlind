@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seu trabalho em vídeo</title>
+<style>
+@font-face{font-family:"Fraunces";src:url(../fonts/Fraunces.woff2) format("woff2");font-weight:300 900;font-style:normal}
+@font-face{font-family:"Fraunces";src:url(../fonts/Fraunces-Italic.woff2) format("woff2");font-weight:300 900;font-style:italic}
+:root{--ink:#0f0d0c;--ink2:#1b1816;--line:#2e2925;--text:#f4efe8;--muted:#a39b90;--amber:#eaa53f;--rust:#d0553a;--teal:#38a596;--green:#2fbf71}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;height:100%;overflow:hidden}
+body{font-family:"Inter",system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:var(--ink);transform-origin:0 0}
+.serif{font-family:"Fraunces",serif} em{font-style:italic}
+.amber{color:var(--amber)}.rust{color:var(--rust)}.teal{color:var(--teal)}.muted{color:var(--muted)}
+.blob{position:absolute;border-radius:50%;filter:blur(140px);opacity:.38;pointer-events:none}
+#b1{width:1000px;height:1000px;background:#6a3814;left:-380px;top:-300px}
+#b2{width:900px;height:900px;background:#11463f;right:-380px;bottom:-200px}
+#grain{position:absolute;inset:-64px;pointer-events:none;opacity:.07;mix-blend-mode:overlay;z-index:50}
+#vignette{position:absolute;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%)}
+#hud{position:absolute;inset:0;z-index:40;pointer-events:none}
+#hud .tl{position:absolute;left:0;right:0;top:90px;text-align:center;font:600 26px/1 "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+#hud .tl i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--amber);margin-right:16px;vertical-align:2px}
+#hud .bar{position:absolute;left:90px;right:90px;bottom:90px;height:5px;background:rgba(255,255,255,.12);border-radius:5px;overflow:hidden}
+#hud .bar b{display:block;height:100%;width:0;background:var(--amber)}
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden}
+.inner{position:absolute;inset:0;transform-origin:50% 50%}
+.col{position:absolute;left:90px;right:90px;top:200px;bottom:200px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.w{display:inline-block;white-space:pre}
+.kicker{font:700 30px/1.2 "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:34px}
+.h1{font:900 118px/1.02 "Inter Display",sans-serif;letter-spacing:-.04em}
+.h2{font:800 92px/1.05 "Inter Display",sans-serif;letter-spacing:-.035em}
+.h3{font:800 72px/1.08 "Inter Display",sans-serif;letter-spacing:-.025em}
+.ser{font:400 86px/1.1 "Fraunces",serif;letter-spacing:-.02em}
+.lead{font:500 48px/1.3 "Inter",sans-serif}
+.mt1{margin-top:30px}.mt2{margin-top:60px}.mt3{margin-top:90px}
+
+/* documento e vídeo */
+.doc{width:420px;height:540px;border-radius:28px;background:#efe8dc;color:#2a2622;padding:48px 44px;text-align:left;box-shadow:0 40px 80px rgba(0,0,0,.5);position:relative}
+.doc .tag{position:absolute;right:-26px;top:40px;background:var(--rust);color:#fff;font:800 32px/1 "Inter",sans-serif;padding:14px 22px;border-radius:12px}
+.doc b{display:block;font:800 34px/1.1 "Inter Display",sans-serif;margin-bottom:34px}
+.doc i{display:block;height:16px;border-radius:8px;background:#cfc4b3;margin-bottom:22px}
+.tr{display:flex;align-items:center;gap:30px;margin-top:70px}
+.tr .doc{width:330px;height:420px;padding:38px 34px}
+.tr .doc b{font-size:26px;margin-bottom:26px}.tr .doc i{height:12px;margin-bottom:16px}
+.vid{width:330px;height:420px;border-radius:28px;background:linear-gradient(160deg,#2a1e15,#0f1d1b);border:3px solid var(--amber);display:flex;align-items:center;justify-content:center;box-shadow:0 40px 80px rgba(0,0,0,.5);position:relative;overflow:hidden}
+.vid::before{content:"";position:absolute;left:30px;right:30px;bottom:34px;height:8px;border-radius:4px;background:rgba(255,255,255,.18)}
+.vid::after{content:"";position:absolute;left:30px;width:60%;bottom:34px;height:8px;border-radius:4px;background:var(--amber)}
+.play{width:140px;height:140px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center}
+.play svg{width:58px;height:58px;margin-left:10px;fill:var(--ink)}
+.arrowR svg{width:110px;height:60px;overflow:visible}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:60px}
+.chip{font:700 42px/1 "Inter",sans-serif;padding:24px 36px;border-radius:999px;color:var(--amber);border:2px solid rgba(234,165,63,.55);background:rgba(234,165,63,.1)}
+
+/* passos */
+.steps{width:100%;margin-top:40px;display:flex;flex-direction:column;gap:30px}
+.st{display:flex;align-items:center;gap:40px;text-align:left;background:var(--ink2);border:1px solid var(--line);border-radius:30px;padding:44px 44px}
+.st .n{flex:none;width:110px;height:110px;border-radius:50%;background:var(--amber);color:var(--ink);font:900 56px/110px "Inter",sans-serif;text-align:center}
+.st h4{font:800 52px/1.1 "Inter Display",sans-serif;letter-spacing:-.02em}
+.st p{font:400 34px/1.3 "Inter",sans-serif;color:#c9c1b6;margin-top:10px}
+.st.ok .n{background:var(--teal);color:#fff}
+
+/* checklist */
+.ck{width:100%;text-align:left;margin-top:30px}
+.ck li{list-style:none;display:flex;align-items:center;gap:34px;font:700 54px/1.15 "Inter Display",sans-serif;padding:30px 0;border-bottom:2px solid var(--line);letter-spacing:-.015em}
+.ck li i{flex:none;width:76px;height:76px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center}
+.ck li i svg{width:40px;height:40px;stroke:#fff;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ck li small{display:block;font:500 32px/1.2 "Inter",sans-serif;color:var(--muted);margin-top:6px}
+
+/* exemplo */
+.stack{position:relative;width:900px;height:820px;margin-top:20px}
+.shot{position:absolute;left:0;width:900px;height:506px;border-radius:26px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.6);border:3px solid rgba(255,255,255,.12)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.tags{display:flex;gap:18px;justify-content:center;margin-top:20px}
+.tags span{font:700 34px/1 "JetBrains Mono",monospace;padding:18px 26px;border-radius:14px;background:var(--ink2);border:1px solid var(--line);color:var(--amber)}
+
+/* preços */
+.prices{width:100%;display:flex;flex-direction:column;gap:30px;margin-top:20px}
+.pr{display:flex;align-items:center;justify-content:space-between;text-align:left;border-radius:32px;padding:48px 50px;background:var(--ink2);border:2px solid var(--line);position:relative}
+.pr h4{font:800 56px/1 "Inter Display",sans-serif;letter-spacing:-.02em}
+.pr p{font:500 34px/1.3 "Inter",sans-serif;color:#c9c1b6;margin-top:14px}
+.pr .v{font:900 96px/1 "Inter Display",sans-serif;letter-spacing:-.04em;white-space:nowrap}
+.pr .v small{font-size:44px;font-weight:700;margin-right:6px;vertical-align:28px}
+.pr.hot{border-color:var(--amber);background:linear-gradient(160deg,rgba(234,165,63,.2),rgba(234,165,63,.05))}
+.pr.hot .v{color:var(--amber)}
+.badge{position:absolute;top:-26px;left:50px;background:var(--amber);color:var(--ink);font:800 28px/1 "Inter",sans-serif;padding:14px 22px;border-radius:999px;letter-spacing:.04em;text-transform:uppercase}
+.pr.exp .v{color:var(--teal)}
+
+/* grupo */
+.ppl{display:flex;gap:26px;justify-content:center;margin:70px 0 50px}
+.ppl i{width:130px;height:130px;border-radius:50%;background:rgba(56,165,150,.18);border:3px solid var(--teal);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.ppl i svg{width:96px;height:96px;fill:var(--teal)}
+.div{font:800 64px/1 "Inter Display",sans-serif;color:var(--muted)}
+.big{font:900 260px/0.95 "Inter Display",sans-serif;letter-spacing:-.06em;color:var(--amber);margin-top:30px}
+.big small{font-size:110px;vertical-align:90px;margin-right:12px}
+
+/* cta */
+.bubble{width:300px;height:300px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 30px rgba(47,191,113,.15),0 0 0 60px rgba(47,191,113,.07)}
+.bubble svg{width:150px;height:150px;fill:none;stroke:#fff;stroke-width:9;stroke-linejoin:round;stroke-linecap:round}
+.btn{display:inline-block;margin-top:70px;white-space:nowrap;font:800 46px/1 "Inter",sans-serif;background:var(--green);color:#fff;padding:40px 64px;border-radius:999px}
+</style>
+<script src="cues.js"></script>
+</head>
+<body>
+<div id="stage">
+  <div class="blob" id="b1"></div><div class="blob" id="b2"></div>
+
+  <section class="scene" data-id="gancho" data-sfx="hit">
+    <div class="inner"><div class="col">
+      <div class="doc" data-c="0" data-t="-.3" data-a="pop"><span class="tag">PDF</span><b>Trabalho_final_<br>v7_AGORA_VAI.pdf</b><i></i><i style="width:85%"></i><i></i><i style="width:70%"></i><i></i><i style="width:90%"></i><i style="width:60%"></i></div>
+      <h1 class="h2 mt3" data-c="0" data-a="words">Tem trabalho da facul pra apresentar?</h1>
+      <p class="ser amber mt1" style="font-size:72px" data-c="1" data-a="words"><em>…e não sabe como deixar interessante?</em></p>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="transforma">
+    <div class="inner"><div class="col">
+      <h2 class="h2" data-c="0" data-a="words">Eu transformo seu trabalho em <span class="amber">vídeo animado</span></h2>
+      <div class="tr">
+        <div class="doc" data-c="0" data-tf=".2" data-a="left"><span class="tag">PDF</span><b>Seu trabalho</b><i></i><i style="width:80%"></i><i></i><i style="width:65%"></i><i></i></div>
+        <div class="arrowR"><svg viewBox="0 0 110 60"><path data-c="0" data-tf=".55" data-a="draw" d="M6 30 H96 M76 10 L98 30 L76 50" stroke="#eaa53f" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="vid" data-c="0" data-tf=".75" data-a="pop"><div class="play"><svg viewBox="0 0 24 24"><path d="M5 3 L21 12 L5 21 Z"/></svg></div></div>
+      </div>
+      <div class="chips" data-c="1" data-g="pop" data-st="fit" data-fit=".8"><span class="chip">bonito</span><span class="chip">dinâmico</span><span class="chip">fácil de entender</span></div>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="passos">
+    <div class="inner"><div class="col">
+      <div class="kicker" data-c="0" data-a="fade">Como funciona</div>
+      <h2 class="h2" data-c="0" data-a="words">É simples:</h2>
+      <div class="steps" data-cs="1 2 3" data-g="left">
+        <div class="st"><div class="n">1</div><div><h4>Você manda o PDF ou Word</h4><p>Pelo WhatsApp mesmo.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>Eu monto roteiro e animações</h4><p>Resumo claro, sem textão.</p></div></div>
+        <div class="st ok"><div class="n">3</div><div><h4>Você recebe o vídeo pronto</h4><p>MP4 em Full HD, pronto pra apresentar.</p></div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="inclui">
+    <div class="inner"><div class="col">
+      <div class="kicker" data-c="0" data-a="fade">O que vem no vídeo</div>
+      <ul class="ck" data-c="0" data-tf=".1" data-g="left" data-st="fit" data-fit=".85">
+        <li><i><svg viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7"/></svg></i>Resumo sem textão</li>
+        <li><i><svg viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7"/></svg></i>Animações</li>
+        <li><i><svg viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7"/></svg></i>Música de fundo</li>
+      </ul>
+      <ul class="ck" style="margin-top:0" data-c="1" data-g="left">
+        <li><i><svg viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7"/></svg></i><span>Narração<small>opcional</small></span></li>
+      </ul>
+      <ul class="ck" style="margin-top:0" data-c="2" data-g="left">
+        <li><i><svg viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7"/></svg></i><span>Créditos no final<small>nomes do grupo e do professor</small></span></li>
+      </ul>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="exemplo">
+    <div class="inner"><div class="col" style="top:170px">
+      <div class="kicker" data-c="0" data-a="fade">Exemplo real</div>
+      <h2 class="h3" data-c="0" data-a="words">Trabalho de Psicologia que virou vídeo narrado</h2>
+      <div class="stack">
+        <div class="shot" style="top:150px;transform:rotate(-2.5deg)" data-c="1" data-tf="0" data-a="up"><img src="img/ex1.jpg"></div>
+        <div class="shot" style="top:150px;transform:rotate(2deg)" data-c="1" data-tf=".3" data-a="up"><img src="img/ex2.jpg"></div>
+        <div class="shot" style="top:150px;transform:rotate(-1.5deg)" data-c="1" data-tf=".6" data-a="up"><img src="img/ex3.jpg"></div>
+        <div class="shot" style="top:150px;transform:rotate(1.5deg)" data-c="1" data-tf=".9" data-a="up"><img src="img/ex4.jpg"></div>
+        <div class="shot" style="top:150px;transform:rotate(0deg)" data-c="1" data-tf="1.25" data-a="up"><img src="img/ex5.jpg"></div>
+      </div>
+      <div class="tags" data-c="1" data-tf="1.45" data-g="pop" data-st=".2"><span>8min48s</span><span>narrado</span><span>Full HD</span></div>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="precos">
+    <div class="inner"><div class="col">
+      <div class="kicker" data-c="0" data-a="fade">Valores</div>
+      <div class="prices" data-cs="1 2 3" data-g="up">
+        <div class="pr"><div><h4>Básico</h4><p>Até 3 min · animado<br>com música</p></div><div class="v"><small>R$</small>50</div></div>
+        <div class="pr hot"><span class="badge">Mais completo</span><div><h4>Completo</h4><p>Até 10 min · com<br>narração</p></div><div class="v"><small>R$</small>90</div></div>
+        <div class="pr exp"><div><h4>Express</h4><p>Entrega em 24 horas</p></div><div class="v"><small>+R$</small>20</div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="grupo">
+    <div class="inner"><div class="col">
+      <h2 class="h2" data-c="0" data-a="words">Dividindo no grupo</h2>
+      <div class="ppl" data-c="0" data-tf=".3" data-g="pop" data-st=".12">
+        <i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5"/><path d="M3 24 C3 16 21 16 21 24 Z"/></svg></i>
+        <i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5"/><path d="M3 24 C3 16 21 16 21 24 Z"/></svg></i>
+        <i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5"/><path d="M3 24 C3 16 21 16 21 24 Z"/></svg></i>
+        <i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5"/><path d="M3 24 C3 16 21 16 21 24 Z"/></svg></i>
+        <i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5"/><path d="M3 24 C3 16 21 16 21 24 Z"/></svg></i>
+      </div>
+      <div class="div" data-c="1" data-a="up">R$ 90 ÷ 5 pessoas</div>
+      <div class="big" data-c="1" data-tf=".45" data-a="pop"><small>R$</small>18</div>
+      <p class="lead muted" data-c="1" data-tf=".7" data-a="up">pra cada um</p>
+    </div></div>
+  </section>
+
+  <section class="scene" data-id="cta" data-sfx="hit">
+    <div class="inner"><div class="col">
+      <div class="bubble" data-c="0" data-t="-.2" data-a="pop"><svg viewBox="0 0 64 64"><path d="M32 8 C17 8 7 18 7 30 C7 37 10 42 15 46 L12 57 L25 51 C27 52 29 52 32 52 C47 52 57 42 57 30 C57 18 47 8 32 8 Z"/></svg></div>
+      <h2 class="h1 mt3" data-c="0" data-a="words">Chama no WhatsApp</h2>
+      <p class="lead mt1 muted" data-c="0" data-tf=".6" data-a="up">e manda o seu trabalho</p>
+      <div class="btn" data-c="0" data-tf="1" data-a="pop">Orçamento sem compromisso</div>
+    </div></div>
+  </section>
+
+  <div id="hud"><div class="tl"><i></i>Seu trabalho em vídeo</div><div class="bar"><b></b></div></div>
+  <div id="vignette"></div>
+  <canvas id="grain" width="256" height="256"></canvas>
+</div>
+
+<script>
+(() => {
+const W=1080, H=1920;
+const stage=document.getElementById('stage');
+const scenes=[...document.querySelectorAll('.scene')];
+const hudBar=document.querySelector('#hud .bar b');
+const CUES=window.__CUES||{};
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const E={out:p=>1-Math.pow(1-p,3),inout:p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2,back:p=>{const c1=1.7,c3=c1+1;return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2)}};
+function splitWords(el){const out=[];const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const parts=c.textContent.split(/(\s+)/);const frag=document.createDocumentFragment();parts.forEach(p=>{if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(' '));return;}const s=document.createElement('span');s.className='w';s.textContent=p;frag.appendChild(s);out.push(s);});c.replaceWith(frag);}else if(c.nodeType===1&&!c.dataset.a){walk(c);}else if(c.nodeType===1){out.push(c);}});};walk(el);return out;}
+function timing(s,el,ci){const c=ci!==undefined?ci:(el.dataset.c!==undefined?+el.dataset.c:null);let t=0,L=2;if(c!==null){t=s._c[c]??0;L=s._l[c]??2;}t+=+(el.dataset.t||0);if(el.dataset.tf)t+=L*(+el.dataset.tf);return{t,L};}
+let acc=0;
+scenes.forEach(s=>{
+  const cue=CUES[s.dataset.id]||{dur:6,c:[.5],len:[3]};
+  s._start=acc;s._dur=cue.dur;s._c=cue.c;s._l=cue.len;acc+=s._dur;s._items=[];s._inner=s.querySelector('.inner');
+  const add=(el,t,a,d)=>s._items.push({el,t,a,d,ease:el.dataset.ease});
+  s.querySelectorAll('[data-g]').forEach(g=>{const kids=[...g.children],a=g.dataset.g,d=+(g.dataset.d||.7);
+    if(g.dataset.cs){const cs=g.dataset.cs.split(/\s+/).map(Number);kids.forEach((k,i)=>add(k,timing(s,g,cs[i]).t,a,d));}
+    else{const{t,L}=timing(s,g);const st=g.dataset.st==='fit'?L*(+(g.dataset.fit||.8))/kids.length:+(g.dataset.st||.2);kids.forEach((k,i)=>add(k,t+i*st,a,d));}});
+  s.querySelectorAll('[data-a]').forEach(el=>{const a=el.dataset.a,{t,L}=timing(s,el);
+    if(a==='words'){const ws=splitWords(el);const st=el.dataset.st?+el.dataset.st:Math.min(.14,L*.65/ws.length);ws.forEach((w,k)=>add(w,t+k*st,'wordup',.6));}
+    else add(el,t,a,+(el.dataset.d||(a==='draw'?.5:.7)));});
+  s._items.forEach(it=>{if(it.a==='draw'){const Ln=it.el.getTotalLength();it.len=Ln;it.el.style.strokeDasharray=Ln;}});
+});
+const TOTAL=acc;
+window.__TIMELINE={total:TOTAL,scenes:scenes.map(s=>({id:s.dataset.id,start:s._start,dur:s._dur,sfx:s.dataset.sfx||'',light:false}))};
+const g=document.getElementById('grain'),gx=g.getContext('2d'),id=gx.createImageData(256,256);let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+for(let i=0;i<id.data.length;i+=4){const v=rnd()*255;id.data[i]=id.data[i+1]=id.data[i+2]=v;id.data[i+3]=255}gx.putImageData(id,0,0);
+const grainURL=g.toDataURL();g.remove();const grain=document.createElement('div');grain.id='grain';grain.style.backgroundImage=`url(${grainURL})`;grain.style.backgroundSize='256px 256px';stage.appendChild(grain);
+function applyItem(it,lt){
+  const raw=clamp((lt-it.t)/it.d),el=it.el,a=it.a;
+  let p=it.ease==='inout'?E.inout(raw):(a==='pop'?E.back(raw):E.out(raw)); if(a==='pop'&&raw>=1)p=1;
+  const o=E.out(clamp(raw*1.6));
+  const base=el._base??(el._base=el.style.transform||'');
+  switch(a){
+    case 'fade':el.style.opacity=o;break;
+    case 'up':el.style.opacity=o;el.style.transform=`translateY(${(1-p)*80}px) ${base}`;break;
+    case 'wordup':el.style.opacity=o;el.style.transform=`translateY(${(1-p)*.5}em)`;el.style.filter=raw<1?`blur(${(1-o)*8}px)`:'none';break;
+    case 'left':el.style.opacity=o;el.style.transform=`translateX(${(1-p)*-90}px)`;break;
+    case 'pop':el.style.opacity=o;el.style.transform=`scale(${.5+.5*p})`;break;
+    case 'draw':el.style.strokeDashoffset=it.len*(1-p);break;
+  }
+}
+const FADE=.35;
+function render(t){
+  scenes.forEach(s=>{const lt=t-s._start;
+    if(lt<0||lt>=s._dur){if(s._vis){s.style.visibility='hidden';s._vis=false;}return;}
+    if(!s._vis){s.style.visibility='visible';s._vis=true;}
+    const fin=E.out(clamp(lt/FADE)),fout=E.inout(clamp((lt-(s._dur-FADE))/FADE));
+    s.style.opacity=fin*(1-fout);
+    s._inner.style.transform=`scale(${1+.03*(lt/s._dur)+.04*fout})`;
+    s._items.forEach(it=>applyItem(it,lt));});
+  hudBar.style.width=(t/TOTAL*100)+'%';
+  document.getElementById('b1').style.transform=`translate(${Math.sin(t*.3)*180}px,${Math.cos(t*.25)*160}px)`;
+  document.getElementById('b2').style.transform=`translate(${Math.cos(t*.22)*200}px,${Math.sin(t*.28)*180}px)`;
+  grain.style.transform=`translate(${-(Math.floor(t*24)*37%64)}px,${-(Math.floor(t*24)*53%64)}px)`;
+}
+window.__render=render;
+function fit(){const k=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(${(innerWidth-W*k)/2}px,${(innerHeight-H*k)/2}px) scale(${k})`}
+if(!window.__CAPTURE){fit();addEventListener('resize',fit);
+  const audio=new Audio('seu-trabalho-em-video.m4a');let playing=false;
+  addEventListener('click',()=>{playing=!playing;playing?audio.play().catch(()=>{}):audio.pause();});
+  const loop=()=>{render(audio.currentTime||0);requestAnimationFrame(loop);};loop();
+}else render(0);
+})();
+</script>
+</body>
+</html>
